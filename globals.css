@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-cormorant: 'Cormorant Garamond', Georgia, serif;
+    --font-jost: 'Jost', system-ui, sans-serif;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-cream text-charcoal;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-serif;
+  }
+}
+
+@layer components {
+  /* Buttons */
+  .btn-gold {
+    @apply inline-flex items-center justify-center px-8 py-3.5
+           bg-gold text-charcoal font-sans font-semibold
+           text-[11px] tracking-wider uppercase
+           transition-colors duration-200 hover:bg-gold-light
+           focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2;
+  }
+
+  .btn-outline-light {
+    @apply inline-flex items-center justify-center px-8 py-3.5
+           border border-white/50 text-white font-sans font-medium
+           text-[11px] tracking-wider uppercase
+           transition-colors duration-200 hover:border-gold-light hover:text-gold-light
+           focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2;
+  }
+
+  .btn-outline-gold {
+    @apply inline-flex items-center justify-center px-8 py-3.5
+           border border-gold text-gold font-sans font-medium
+           text-[11px] tracking-wider uppercase
+           transition-colors duration-200 hover:bg-gold/10
+           focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2;
+  }
+
+  .btn-dark {
+    @apply inline-flex items-center justify-center px-8 py-3.5
+           bg-charcoal text-white font-sans font-medium
+           text-[11px] tracking-wider uppercase
+           transition-colors duration-200 hover:bg-charcoal-mid
+           focus:outline-none focus:ring-2 focus:ring-charcoal focus:ring-offset-2;
+  }
+
+  .btn-outline-dark {
+    @apply inline-flex items-center justify-center px-8 py-3.5
+           border-2 border-charcoal text-charcoal font-sans font-medium
+           text-[11px] tracking-wider uppercase
+           transition-colors duration-200 hover:bg-charcoal/10
+           focus:outline-none focus:ring-2 focus:ring-charcoal focus:ring-offset-2;
+  }
+
+  /* Section labels */
+  .section-label {
+    @apply text-[10px] font-sans font-medium tracking-widest uppercase text-gold mb-3;
+  }
+
+  .gold-rule {
+    @apply w-12 h-0.5 bg-gold mb-5;
+  }
+
+  /* Section headings */
+  .section-heading {
+    @apply font-serif font-light text-4xl md:text-5xl leading-tight text-charcoal;
+  }
+
+  .section-sub {
+    @apply font-sans font-light text-[15px] leading-relaxed text-charcoal-warm max-w-xl;
+  }
+
+  /* Inputs */
+  .form-input {
+    @apply w-full bg-cream border border-cream-dark px-4 py-3.5
+           font-sans text-sm font-light text-charcoal
+           focus:outline-none focus:border-gold transition-colors duration-200;
+  }
+
+  .form-label {
+    @apply text-[10px] font-sans font-medium tracking-wider uppercase text-charcoal-warm;
+  }
+}
