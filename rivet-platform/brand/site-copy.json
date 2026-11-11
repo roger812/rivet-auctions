@@ -1,0 +1,94 @@
+{
+  "version": "2026-11-11",
+  "business": "Rivet Auctions",
+  "intended_market": "Central Texas",
+  "industry": "real_estate_only",
+  "status": "development_only_not_publication_approved",
+  "origin": "Atlas simulated leadership review, founder reports dual broker and auctioneer qualifications",
+  "identity": {
+    "founder": "Roger Hayer",
+    "dual_qualification": "Texas real estate broker and auctioneer (founder-reported; verify current licenses before public copy)",
+    "brokerage_reference": "Rivet Real Estate",
+    "auction_company_license_name": "PENDING_TDLR_VERIFICATION",
+    "auctioneer_license_number": "PENDING_TDLR_VERIFICATION",
+    "brokerage_legal_name": "PENDING_TREC_VERIFICATION"
+  },
+  "vision": "Make competitive real estate sales in Central Texas easier to understand and more trustworthy.",
+  "mission": "Help property owners compare their choices and execute a suitable real estate sales strategy with transparent terms and accountable professional guidance.",
+  "brandPromise": "A clearer way to sell. Real options. Honest guidance. Competition when it makes sense.",
+  "hero": {
+    "eyebrow": "CENTRAL TEXAS • BROKER & AUCTIONEER GUIDANCE",
+    "headline": "Your property. Your options. A clearer way to sell.",
+    "body": "Explore a traditional listing, an as-is sale, or a structured competitive strategy with a team that explains the trade-offs before you choose.",
+    "primaryButton": "Explore my selling options",
+    "secondaryButton": "See how the process works",
+    "disclaimer": "A competitive sale is one option, not a promise of a higher price."
+  },
+  "pathways": {
+    "seller": {
+      "label": "Explore selling options",
+      "initialQuestion": "What matters most to you about your next move?",
+      "requiredFields": [
+        "name",
+        "email_or_phone",
+        "reply_consent"
+      ],
+      "optionalFirstStep": [
+        "property_address",
+        "note"
+      ],
+      "nextStep": "A staff member explains the paths and confirms your goals before proposing a sale strategy."
+    },
+    "buyer": {
+      "label": "Ask about a property",
+      "initialQuestion": "Which property are you interested in?",
+      "requiredFields": [
+        "name",
+        "email_or_phone",
+        "reply_consent"
+      ],
+      "optionalFirstStep": [
+        "property_address",
+        "note"
+      ],
+      "nextStep": "A staff member explains the applicable property, offer and bidding terms; no price or offer is treated as verified from a public form."
+    }
+  },
+  "promiseChecks": [
+    "No automatic auction recommendation.",
+    "No invented bidders, price guarantees or manufactured urgency.",
+    "No consumer record access without verified staff authorization.",
+    "No IWCO lead transfer to Rivet without an appropriate, permissioned process.",
+    "No public bidding, payment or highest-offer feed before a documented protocol is approved."
+  ],
+  "faqs": [
+    {
+      "q": "Will my home have to go to auction?",
+      "a": "No. We review the options first. A competitive sale only makes sense when the property, buyer demand and your goals support it."
+    },
+    {
+      "q": "Can I explore selling as-is?",
+      "a": "Yes. We'll discuss condition, expected costs, timing, offers and possible selling paths before you commit."
+    },
+    {
+      "q": "Does competition guarantee a higher sales price?",
+      "a": "No. Competition may help price discovery, but no specific outcome is guaranteed."
+    },
+    {
+      "q": "What if I decide not to sell?",
+      "a": "That can be the right decision. Starting a conversation does not obligate you to sell."
+    },
+    {
+      "q": "How are auction terms and buyer premiums handled?",
+      "a": "Any auction requires written and disclosed terms, including reserve and buyer premium where applicable, before you participate."
+    }
+  ],
+  "legalLaunchGates": {
+    "iabs2026CompletedAndHomepageLinked": false,
+    "brokerLegalNameVerified": false,
+    "auctioneerLicensedNameAndNumberVerified": false,
+    "auctionTermsAndFeesApproved": false,
+    "privacyAndDataFlowApproved": false,
+    "publicTeamAndApiAccessTestPassed": false
+  }
+}
