@@ -18,7 +18,7 @@ function mockPool({existing=null, failAt=null, member=null, cases=[]}={}) {
   const client={
     async query(sql,args=[]) {
       log.push({sql,args});
-      if (sql===failAt) throw Error('database_unavailable');
+      if (failAt && (sql===failAt || sql.startsWith(failAt))) throw Error('database_unavailable');
       if (sql.startsWith('SELECT id, case_id, body_hash FROM')) return {rows:existing ? [existing] : []};
       return {rows:[]};
     },
@@ -48,7 +48,7 @@ test('new intake writes contact, case, inquiry, task, activity atomically',async
   assert.equal(f.log[0].sql,'BEGIN');
   assert.equal(f.log.at(-1).sql,'COMMIT');
   assert.deepEqual(f.log.filter(x=>x.sql.startsWith('INSERT INTO')).map(x=>x.sql.split(' ')[2]),[
-    'rivet.contacts','rivet.cases','rivet.inquiries','rivet.tasks','rivet.activities'
+    'rivet.contacts','rivet.cases','rivet.inquiries','rivet.tasks','rivet.activities','rivet.lead_outbox'
   ]);
   assert.ok(!f.log.some(x=>x.sql.includes('rivet.properties'))); // missing address is allowed
   assert.equal(f.log.find(x=>x.sql.includes('INSERT INTO rivet.cases')).args.at(-1),'Needs repairs');
@@ -99,4 +99,31 @@ test('SQL schema denies anon/authenticated and protects every sensitive table',(
   assert.match(sql,/REVOKE ALL ON ALL TABLES IN SCHEMA rivet FROM PUBLIC, anon, authenticated;/);
   assert.doesNotMatch(sql,/GRANT (?:SELECT|INSERT|ALL) .* TO (?:anon|authenticated)/i);
   assert.match(sql,/FOREIGN KEY \(owner_workspace,owner_user_id\)/);
+});
+
+test('outbox is metadata-only and created before transaction commit',async()=>{
+  const f=mockPool();
+  await f.repo.saveInquiry(inquiry,key);
+  const insert=f.log.find(x=>x.sql.startsWith('INSERT INTO rivet.lead_outbox'));
+  const e=JSON.parse(insert.args[4]);
+  assert.equal(e.businessId,'rivet-auctions');
+  assert.equal(e.leadType,'auction-seller-inquiry');
+  assert.equal(e.attribution.reportedSource,'direct');
+  assert.equal(insert.args[5],'pending');
+  assert.ok(insert.args[3].startsWith('rivet-auctions:lead.received:'));
+  for(const value of [inquiry.name,inquiry.email,inquiry.note])assert.ok(!JSON.stringify(e).includes(value));
+  assert.ok(f.log.indexOf(insert)<f.log.findIndex(x=>x.sql==='COMMIT'));
+});
+test('if outbox cannot be saved, whole contact/case transaction rolls back',async()=>{
+  const f=mockPool({failAt:'INSERT INTO rivet.lead_outbox'});
+  await assert.rejects(f.repo.saveInquiry(inquiry,key),/database_unavailable/);
+  assert.equal(f.log.at(-1).sql,'ROLLBACK');
+  assert.equal(f.released,true);
+});
+test('private outbox requires RLS and has no anon/authenticated grants',()=>{
+  const sql=readFileSync(new URL('../sql/lead-outbox.sql',import.meta.url),'utf8');
+  assert.match(sql,/ALTER TABLE rivet\.lead_outbox ENABLE ROW LEVEL SECURITY;/);
+  assert.match(sql,/REVOKE ALL ON rivet\.lead_outbox FROM PUBLIC, anon, authenticated;/);
+  assert.doesNotMatch(sql,/GRANT .* TO (?:anon|authenticated)/i);
+  assert.match(sql,/UNIQUE \(case_id,event_type\)/);
 });
