@@ -3,7 +3,7 @@
 **Project:** Rivet Auctions (real estate only)  
 **Repository:** `roger812/rivet-auctions`  
 **Branch:** `development/iwco-reuse-rivet-20261111`  
-**Status:** DEVELOPMENT, not deployed. The approved ChatGPT Sites experience at `rivetauctions.com` has not been replaced.
+**Status:** DEVELOPMENT, not deployed. Separate Rivet Supabase schema now installed and permission-checked. The approved ChatGPT Sites experience at `rivetauctions.com` has not been replaced.
 
 ## Reuse strategy
 
@@ -18,9 +18,11 @@ The approved Rivet Auctions website is a brand and lead-capture experience with 
 | Staff route boundary | `src/access-boundary.mjs` denies unauthenticated/unapproved users from `/team` and `/api/team/requests` | Requires real verified staff sessions |
 | Seller and buyer intake | `src/public-intake.mjs` validates minimal contact information, explicit reply consent, idempotency keys, bounded body size, and server-supplied bot/rate checks | Requires real anti-bot and rate-limit adapters |
 | Transactional CRM | `src/postgres-repository.mjs` atomically creates contact, optional property, case, receipt, initial task, and event; retries return previous receipt | Not connected to a real database |
-| Data model | `sql/initial-schema.sql` defines private Rivet contacts, cases, activities, membership, and tasks with RLS enabled, no public data grants | PROPOSED SQL ONLY — not applied |
+| Data model | `sql/initial-schema.sql` defines Rivet-only contacts, properties, cases, tasks, activities and staff membership | Applied to separate Rivet Supabase development project; all seven RLS-enabled tables reject direct anon/authenticated access |
 | Routing | `src/application.mjs` composes public intake and staff-only endpoints without making the staff desk public | No hosting runtime or frontend integration yet |
-| Verification | `tests/*.test.mjs` (31 isolated/mocked tests) | Local unit/integration tests passed; live HTTP/DB security tests remain |
+| Seller options | `src/seller-decision.mjs` supports human-led option comparison and no-auction decision | Unit-tested; not part of a customer-facing app yet |
+| Brand and operating charter | `strategy/FOUNDING_CHARTER.md`, `brand/site-copy.json`, `marketing/YELLOW_POSTCARD_PILOT.md` | Defined and source-controlled; not public advertising |
+| Verification | `tests/*.test.mjs` (37 isolated/mocked tests) | Local unit/integration tests passed; live HTTP/auth and DB transaction tests remain |
 
 Run the tests from `rivet-platform` with Node 22+: `npm test`. There are no external dependencies for this development test package.
 
@@ -37,11 +39,11 @@ Run the tests from `rivet-platform` with Node 22+: `npm test`. There are no exte
 
 ## Next build gates
 
-1. Provision the **separate** Rivet Supabase project in the owner-confirmed organization and validate the SQL on an isolated instance; inspect security advisors and test permissions as anonymous and authorized identities.
+1. **Done:** Provision the separate Rivet Supabase development project and apply private schema. Catalog privilege checks confirmed no anon/authenticated access; advisor INFO notices describe intentionally policy-free private tables. Still test an actual end-to-end database transaction.
 2. Add a real session verifier, Rivet-only membership provisioning, rate-limiter, and anti-bot adapter. Test with a real HTTP server and actual database.
 3. Port the approved sunny Rivet public pages and private team desk to this backend; preserve the minimal lead capture.
 4. Put a Render **preview** URL online, prove unauthorized users cannot fetch `/team` or private APIs, and verify seller/buyer-to-CRM handoff with fictional data.
 5. Configure authorized email/Slack handoff, legal/privacy notices, rollback, and only then plan a domain cutover. Keep the current website private until access controls are verified.
 6. Archive obsolete repository/site prototypes after the replacement is proven. Delete only with explicit owner approval and exact targets.
 
-**Live status:** No Supabase schema applied, no Render service for Rivet created, no site DNS, customer records, or IWCO resources changed by this development work.
+**Live status:** Rivet Supabase development schema installed (no customer records imported); no Render service for Rivet created and no live site, DNS, customer records, or IWCO resources changed by this development work.
