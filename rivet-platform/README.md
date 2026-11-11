@@ -22,7 +22,8 @@ The approved Rivet Auctions website is a brand and lead-capture experience with 
 | Routing | `src/application.mjs` composes public intake and staff-only endpoints without making the staff desk public | No hosting runtime or frontend integration yet |
 | Seller options | `src/seller-decision.mjs` supports human-led option comparison and no-auction decision | Unit-tested; not part of a customer-facing app yet |
 | Brand and operating charter | `strategy/FOUNDING_CHARTER.md`, `brand/site-copy.json`, `marketing/YELLOW_POSTCARD_PILOT.md` | Defined and source-controlled; not public advertising |
-| Verification | `tests/*.test.mjs` (37 isolated/mocked tests) | Local unit/integration tests passed; live HTTP/auth and DB transaction tests remain |
+| Atlas common CRM handoff | `src/atlas-lead-envelope.mjs`, `sql/lead-outbox.sql`, `architecture/COMMON_CRM_BRIDGE.md` | Rivet-only private outbox is installed; no real cross-business sync or PII transfer is enabled |
+| Verification | `tests/*.test.mjs` (50 local/mocked tests) | GitHub Actions passed 50/50; live HTTP/auth, actual DB transactions and central inbox integration remain |
 
 Run the tests from `rivet-platform` with Node 22+: `npm test`. There are no external dependencies for this development test package.
 
@@ -46,4 +47,4 @@ Run the tests from `rivet-platform` with Node 22+: `npm test`. There are no exte
 5. Configure authorized email/Slack handoff, legal/privacy notices, rollback, and only then plan a domain cutover. Keep the current website private until access controls are verified.
 6. Archive obsolete repository/site prototypes after the replacement is proven. Delete only with explicit owner approval and exact targets.
 
-**Live status:** Rivet Supabase development schema installed (no customer records imported); no Render service for Rivet created and no live site, DNS, customer records, or IWCO resources changed by this development work.
+**Live status:** Rivet Supabase development schema plus metadata-only lead outbox installed (no customer records imported); no Render service for Rivet created and no live site, DNS, customer records, or IWCO resources changed by this development work.
