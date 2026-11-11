@@ -1,33 +1,47 @@
-# Rivet Auctions — independent secure platform (development only)
+# Rivet Auctions — independent development platform
 
-**Working branch:** `development/iwco-reuse-rivet-20261111`. **Live site not modified.**
+**Project:** Rivet Auctions (real estate only)  
+**Repository:** `roger812/rivet-auctions`  
+**Branch:** `development/iwco-reuse-rivet-20261111`  
+**Status:** DEVELOPMENT, not deployed. The approved ChatGPT Sites experience at `rivetauctions.com` has not been replaced.
 
-This folder begins the Rivet Auctions implementation using patterns from the existing IWCO source repository. Its first check is a fail-closed server-side gate for `/team` and `/api/team/requests`. This is a standalone development module, **not a deployed CRM or production authentication solution**.
+## Reuse strategy
 
-## Architecture source and boundaries
+Adapt IWCO's architecture and lessons learned, **not** its homeowner data, secrets, email credentials, or production settings. Primary reference: `roger812/iwco-development`, particularly its managed API, consented intake, session, and CRM/checkpoint components. Both applications must be operationally independent.
 
-- Reference: `roger812/iwco-development`, `application/managed-auth/api.mjs` and supporting intake, session, membership and CRM modules, initially reviewed from `iwco/private-preview-cp11`.
-- Separate brands: Rivet Auctions focuses on **real estate only**; preserve the already-approved bright, sunny, lead-capture design at `rivetauctions.com`. No fine-art copy and no public property listing catalog.
-- Separate data: Rivet must have its **own database/project**, identities, membership roles, encryption keys, event logs, backups and consent records. Do not import IWCO homeowner leads or staff secrets.
-- Seller flow: public landing page -> minimal inquiry -> validation/spam protection -> **Rivet-only** contact, property, case and first task -> private team queue.
-- Buyer flow: buyer inquiry -> verified property/offer workflow -> explicit human review. Never accept a buyer-email price as a verified highest offer.
-- Team desk: `/team` and **every** case/lead/staff API requires server-verified identity plus active Rivet membership. No client-side-only guards, no browser-provided role or email.
-- Integration hooks: future Slack highest-offer update and email/Twilio must be authenticated, auditable, and idempotent. No external sending in this starter.
+The approved Rivet Auctions website is a brand and lead-capture experience with a sunny Central Texas home image. It is for **real estate only**, not fine art, and it does **not** publish a listing catalog or publicly display highest offers. Buyers can ask for offer information after team review; a buyer cannot change the verified highest offer through a public request.
 
-## Current implementation
+## What has been implemented on this branch
 
-`src/access-boundary.mjs` exposes `createRivetStaffBoundary`. It takes verified session and membership adapters and only serves two staff routes. It denies unknown, unverified and inactive users, and fails closed if the provider errors. **The adapters supplied in tests are fakes; production adapters do not yet exist.** The `/team` response is a placeholder, not the approved team UI. Public inquiry intake intentionally remains disabled until it has a persistence, rate-limit, consent and abuse-prevention implementation.
+| Component | Implementation | Production status |
+|---|---|---|
+| Staff route boundary | `src/access-boundary.mjs` denies unauthenticated/unapproved users from `/team` and `/api/team/requests` | Requires real verified staff sessions |
+| Seller and buyer intake | `src/public-intake.mjs` validates minimal contact information, explicit reply consent, idempotency keys, bounded body size, and server-supplied bot/rate checks | Requires real anti-bot and rate-limit adapters |
+| Transactional CRM | `src/postgres-repository.mjs` atomically creates contact, optional property, case, receipt, initial task, and event; retries return previous receipt | Not connected to a real database |
+| Data model | `sql/initial-schema.sql` defines private Rivet contacts, cases, activities, membership, and tasks with RLS enabled, no public data grants | PROPOSED SQL ONLY — not applied |
+| Routing | `src/application.mjs` composes public intake and staff-only endpoints without making the staff desk public | No hosting runtime or frontend integration yet |
+| Verification | `tests/*.test.mjs` (31 isolated/mocked tests) | Local unit/integration tests passed; live HTTP/DB security tests remain |
 
-Run: `cd rivet-platform && npm test` (Node 22+; no external dependencies).
+Run the tests from `rivet-platform` with Node 22+: `npm test`. There are no external dependencies for this development test package.
 
-## Do-not-launch gates
+## Nonnegotiable security boundaries
 
-1. Wire a real, signed, expiring, revocable session provider and server-side membership DAO.
-2. Create an isolated Rivet Supabase project with private schema and RLS/grants reviewed. Keep service keys off public clients.
-3. Port IWCO's intake and CRM models with Rivet-specific stages, consent, idempotency, audit history, and a durable transaction.
-4. Implement responsive approved Rivet frontend and team desk, then test actual anonymous access over HTTP.
-5. Verify staff logins, CSRF, rate limiting, record authorization, encrypted secrets, backups, email/Slack permissions, and legal disclosures.
-6. Deploy to **a new Render preview hostname** first; do not change the DNS or ChatGPT Sites domain until the approved design and security are verified.
-7. After cutover and rollback safety, archive older prototypes; delete only after explicit approval.
+- Never serve homeowner data or CRM details publicly. `/team` and every customer-data API require an independently verified staff identity **and** an active Rivet authorization record.
+- No client-supplied role, email, or unverified JWT user metadata can grant access.
+- Private PostgreSQL schema, with RLS enabled and no `anon`/`authenticated` grants. Database credentials remain server-side.
+- New inquiries require an explicit reply-only consent. No bulk marketing permission is implied.
+- Use a real, server-verified human challenge and trustworthy request throttling before accepting live inquiries. Fake adapters exist in tests only.
+- The current `/team` HTML response is a placeholder until the approved team desk is safely ported.
+- Never connect buyer-submitted prices to the verified highest-offer record.
+- Do not import IWCO leads, re-use IWCO secrets, or alter IWCO deploys.
 
-**No launch, live-site modification, actual lead migration, or IAM authorization is implied by this development branch.**
+## Next build gates
+
+1. Provision the **separate** Rivet Supabase project in the owner-confirmed organization and validate the SQL on an isolated instance; inspect security advisors and test permissions as anonymous and authorized identities.
+2. Add a real session verifier, Rivet-only membership provisioning, rate-limiter, and anti-bot adapter. Test with a real HTTP server and actual database.
+3. Port the approved sunny Rivet public pages and private team desk to this backend; preserve the minimal lead capture.
+4. Put a Render **preview** URL online, prove unauthorized users cannot fetch `/team` or private APIs, and verify seller/buyer-to-CRM handoff with fictional data.
+5. Configure authorized email/Slack handoff, legal/privacy notices, rollback, and only then plan a domain cutover. Keep the current website private until access controls are verified.
+6. Archive obsolete repository/site prototypes after the replacement is proven. Delete only with explicit owner approval and exact targets.
+
+**Live status:** No Supabase schema applied, no Render service for Rivet created, no site DNS, customer records, or IWCO resources changed by this development work.
