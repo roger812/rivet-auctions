@@ -1,0 +1,27 @@
+name: Rivet platform validation
+on:
+  push:
+    branches:
+      - development/iwco-reuse-rivet-20261111
+    paths:
+      - "rivet-platform/**"
+      - ".github/workflows/rivet-platform-tests.yml"
+  pull_request:
+    paths:
+      - "rivet-platform/**"
+      - ".github/workflows/rivet-platform-tests.yml"
+permissions:
+  contents: read
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Run Rivet test suite (no secrets, network or database)
+        working-directory: rivet-platform
+        run: npm test
