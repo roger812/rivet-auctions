@@ -4,6 +4,7 @@
  * a browser. All writes happen in a single Postgres transaction.
  */
 import {createHash, randomUUID} from 'node:crypto';
+import {makeRivetAuctionLeadEnvelope} from './atlas-lead-envelope.mjs';
 
 export class RivetIdempotencyConflict extends Error {
   constructor() { super('request_changed_use_new_id'); this.code = 'request_changed_use_new_id'; }
@@ -70,6 +71,15 @@ export function createRivetPostgresRepository({pool} = {}) {
         await client.query(
           'INSERT INTO rivet.activities (id, case_id, kind, detail) VALUES ($1,$2,$3,$4)',
           [randomUUID(), caseId, 'inquiry_received', JSON.stringify({kind:inquiry.kind, source:inquiry.source})]
+        );
+        // The CRM handoff record is written atomically with the lead.
+        // No network call or cross-company data sharing occurs here.
+        const leadIndexEvent = makeRivetAuctionLeadEnvelope({
+          receipt:{id:inquiryId,caseId}, inquiry
+        });
+        await client.query(
+          'INSERT INTO rivet.lead_outbox (event_id,case_id,event_type,idempotency_key,payload,delivery_status) VALUES ($1,$2,$3,$4,$5,$6)',
+          [randomUUID(),caseId,leadIndexEvent.eventType,leadIndexEvent.idempotencyKey,JSON.stringify(leadIndexEvent),'pending']
         );
         await client.query('COMMIT');
         inTransaction = false;
