@@ -30,3 +30,12 @@ The **existing IWCO staff CRM** is the intended single operator inbox for IWCO, 
 - Configure real staff authentication + roles and separately verify unauthorized HTTP endpoints.
 - Build a separate Rivet preview; only then connect **authorized** Rivet lead metadata/dedicated customer record access to the existing IWCO CRM operator workspace.
 - Keep IWCO's Gmail and Twilio secrets, databases and sending identities separate. No IWCO production changes are made by this branch.
+
+
+## Additional application-level proof — isolated GitHub CI
+
+- [GitHub Actions run 43821195001](https://github.com/roger812/rivet-auctions/actions/runs/43821195001): **completed successfully** using Node 22 and an actual disposable PostgreSQL 17 service.
+- The new `integration/ci-postgres-proof.mjs` exercises the real `createRivetPublicIntake` handler and real `createRivetPostgresRepository` against the real Postgres driver; it does not mock SQL writes.
+- Confirmed: 201 first seller inquiry; seven related private records; `rivet-auctions` metadata event without customer PII; 200 identical replay; 409 altered replay; 503 deliberate outbox failure with zero partial contact; all eight tables use RLS and both public/authenticated roles cannot read; all fictional writes rolled back.
+- This **complements**, but does **not** replace, the live Rivet Supabase connection proof. That distinct gate still requires a private runner/credential and remains open.
+- No IWCO code, configuration, customer records, Render service, email or SMS state changed.
