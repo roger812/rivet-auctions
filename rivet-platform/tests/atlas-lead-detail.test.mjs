@@ -66,13 +66,18 @@ test('unsigned, spoofed, browser and wrong-workspace requests touch no database'
   signed(detail,{headers:{'X-Atlas-Business':'iwco'}}),
   signed(detail,{headers:{'X-Atlas-Signature':'sha256='+'0'.repeat(64)}}),
   signed({...detail,workspaceId:'f3fd3f24-374a-4c94-a5f5-806e7c0440e9'}),
-  signed({...detail,leadRef:'00000000-0000-4000-8000-000000000000'}),
   signed({...detail,purpose:'list_all'}),
   signed({...detail,email:'unauthorized@example.com'}),
   signed(detail,{timestamp:String(Math.floor(now/1000)-1000)})
  ];
  for(const req of bad)await assert.rejects(reader.receive(req),RivetDetailError);
  assert.equal(calls.length,0);
+ // A *validly signed* different lead ID is allowed to reach a precisely
+ // parameterized lookup, but must NOT return an unrelated contact.
+ await assert.rejects(reader.receive(signed({
+  ...detail,leadRef:'00000000-0000-4000-8000-000000000000'
+ })),/rivet_detail_not_found/);
+ assert.equal(calls.length,1);
 });
 test('correctly signed unknown lead does not return unrelated case or contact',async()=>{
  const {reader,calls}=setup({missing:true});
