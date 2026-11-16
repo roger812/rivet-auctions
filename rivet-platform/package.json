@@ -4,5 +4,5 @@
   "private": true,
   "type": "module",
   "engines": { "node": ">=22" },
-  "scripts": { "test": "node --test tests/*.test.mjs" }
+  "scripts": { "test": "node --test tests/*.test.mjs", "atlas:dev-once": "node bin/atlas-delivery-once.mjs" }
 }
