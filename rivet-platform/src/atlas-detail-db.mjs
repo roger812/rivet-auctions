@@ -5,6 +5,7 @@
  */
 import {RIVET_DEVELOPMENT_PROJECT_REF} from './server-db.mjs';
 const ROLE='rivet_atlas_detail_login';
+const VERIFIED_POOLER_HOST='aws-1-us-east-1.pooler.supabase.com';
 export function createRivetAtlasDetailPool({Pool,connectionString,caCertificate}={}){
  if(typeof Pool!=='function')throw new TypeError('rivet_detail_pool_class_required');
  let uri;
@@ -12,20 +13,23 @@ export function createRivetAtlasDetailPool({Pool,connectionString,caCertificate}
  if(!['postgres:','postgresql:'].includes(uri.protocol)||!uri.password||
     uri.pathname!=='/postgres')throw new TypeError('rivet_detail_database_url_invalid');
  const direct=uri.hostname==='db.'+RIVET_DEVELOPMENT_PROJECT_REF+'.supabase.co' &&
-   uri.username===ROLE;
- const pooler=uri.hostname.endsWith('.pooler.supabase.com') &&
+   uri.port==='5432' && uri.username===ROLE;
+ const pooler=uri.hostname===VERIFIED_POOLER_HOST && uri.port==='5432' &&
    uri.username===ROLE+'.'+RIVET_DEVELOPMENT_PROJECT_REF;
  if(!direct&&!pooler)throw new TypeError('wrong_rivet_detail_database_identity');
- if(uri.port&&!['5432','6543'].includes(uri.port))
-  throw new TypeError('wrong_rivet_detail_database_port');
  if(uri.search)throw new TypeError('rivet_detail_database_url_params_forbidden');
- if(typeof caCertificate!=='string'||
-    !caCertificate.includes('-----BEGIN CERTIFICATE-----')||
-    !caCertificate.includes('-----END CERTIFICATE-----'))
-  throw new TypeError('rivet_detail_tls_ca_required');
+ const usingCustomCA=typeof caCertificate==='string'&&caCertificate.length>0;
+ if(usingCustomCA&&(!caCertificate.includes('-----BEGIN CERTIFICATE-----')||
+    !caCertificate.includes('-----END CERTIFICATE-----')))
+  throw new TypeError('rivet_detail_tls_ca_invalid');
+ if(caCertificate!=null&&typeof caCertificate!=='string')
+  throw new TypeError('rivet_detail_tls_ca_invalid');
+ // Without a project-supplied CA, Node's trusted root CA store is used.
+ // TLS certificate and hostname verification remain REQUIRED in both cases.
  return new Pool({
   connectionString,ssl:{
-   ca:caCertificate,rejectUnauthorized:true,servername:uri.hostname
+   rejectUnauthorized:true,servername:uri.hostname,
+   ...(usingCustomCA?{ca:caCertificate}:{})
   },
   max:2,connectionTimeoutMillis:6500,idleTimeoutMillis:1000,
   statement_timeout:7000,application_name:'rivet_atlas_source_detail'
