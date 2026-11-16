@@ -51,6 +51,11 @@ jobs:
       - name: Run migration and lease constraint checks in disposable Postgres
         working-directory: rivet-platform/sql
         run: psql -X -v ON_ERROR_STOP=1 -f ci-outbox-worker-proof.sql
+      - name: Prove column-limited, no-login source contact read role in disposable PostgreSQL
+        working-directory: rivet-platform/sql
+        run: |
+          psql -X -v ON_ERROR_STOP=1 -f atlas-read-only-detail-role.sql
+          psql -X -v ON_ERROR_STOP=1 -f ci-atlas-detail-role-proof.sql
       - name: Install test-only PostgreSQL adapter
         working-directory: rivet-platform
         run: npm install --no-save --package-lock=false --ignore-scripts --no-audit --no-fund pg@8.16.3
