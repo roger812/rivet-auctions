@@ -1,6 +1,6 @@
 # Rivet → IWCO authorized contact-card lookup
 
-**Status: implementation and tests staged; restricted database reader installed in Rivet DEVELOPMENT, but no live read endpoint, login credential, or IWCO contact-card access is enabled.**
+**Status: implementation and tests staged, restricted database reader installed in Rivet DEVELOPMENT, and a fail-closed HTTPS Edge endpoint deployed in DEVELOPMENT. The endpoint is NOT ACTIVATED: no source login, reader connection credential, HMAC key or IWCO staff access is provisioned.**
 
 ## User behavior
 When an approved staff member searches **Business leads** in the IWCO CRM and selects **Open contact card** for a `Rivet Auctions` lead, IWCO should display the existing Rivet source record's contact name, phone/email, property address, inquiry kind/stage and reply-permission evidence. This must be **read-only** and must not merge that person into the IWCO homeowner `cases` or `contacts` tables.
@@ -26,9 +26,21 @@ Tracked Supabase migration **`20261116083352_rivet_atlas_no_login_detail_reader_
 - IWCO: `application/atlas-inbox/source-detail.mjs` plus API integration, `Open contact card` UI and isolated authorization tests in [IWCO draft PR #130](https://github.com/roger812/iwco-development/pull/130).
 - Actual cross-repository signed-lookup contract is tested using fictional data in `application/atlas-inbox/ci-cross-repo-contact-detail.mjs`; no source PII leaves a live database in that test.
 
+## Real development Edge deployment — 2026-11-16
+
+- Deployed new Rivet Supabase Edge function `rivet-atlas-lead-detail`, version **1**, to development project `kxcziyznpvbkgtgscdsd`. It is configured for **signed machine-to-machine HMAC** instead of a Supabase user JWT (`verify_jwt=false`); it has **no CORS** and never returns customer data when disabled.
+- The function uses `integration/edge-rivet-contact-detail/index.ts` plus pinned `npm:pg@8.16.3` and reviewed private-source files. Only `RIVET_ATLAS_SOURCE_DETAIL_ENABLED=1` with a complete restricted connection, verified TLS CA, Rivet-specific 256-bit detail key and exact IWCO workspace can activate its read path.
+- The pool created by `src/atlas-detail-db.mjs` rejects standard `postgres`, service-role or another Supabase project's database URLs. Only the planned `rivet_atlas_detail_login` source role is permitted; admin `SUPABASE_DB_URL` is **never consulted**, not even as a fallback.
+- **Live network disabled proof:** an actual POST to the Edge URL returned **HTTP 503** with `source_detail_not_activated`; no contact lookup occurred. The temporary `pg_net` test extension was immediately dropped. Verified Rivet contacts=0, cases=0, outbox=0 afterward.
+- All three Rivet latest GitHub workflows at source commit `d19181fcfce281a4cdb10447f2db8d93cc2ca530` passed: [platform validation](https://github.com/roger812/rivet-auctions/actions/runs/43833101190), [real PostgreSQL intake](https://github.com/roger812/rivet-auctions/actions/runs/43833101171), and [outbox plus restricted-role proof](https://github.com/roger812/rivet-auctions/actions/runs/43833101259).
+
+**Exact credentials remaining for approved secret management (do not commit):** `RIVET_ATLAS_DETAIL_DB_URL`, `RIVET_ATLAS_DETAIL_DB_CA_PEM`, `RIVET_ATLAS_DETAIL_KEY_HEX`, `RIVET_ATLAS_IWCO_WORKSPACE_ID`. Feature flag `RIVET_ATLAS_SOURCE_DETAIL_ENABLED` remains OFF. A LOGIN identity `rivet_atlas_detail_login` and its secure credential still need to be provisioned with membership in the restrictive NOLOGIN reader role. The live IWCO application must separately set its matching `IWCO_ATLAS_RIVET_DETAIL_KEY_HEX` and opt-in `IWCO_ATLAS_SOURCE_DETAIL_ENABLED` (both currently off/unset).
+
+The endpoint exists only as a disabled, future-configurable component. This is **not** confirmation that the end-to-end authenticated source contact display is operational.
+
 ## Do not activate without
 - Separate restricted **LOGIN** backend identity allowed to assume `rivet_atlas_detail_reader`, with protected credentials and verified TLS. No browser client or broad `postgres` key.
-- A reviewed Rivet HTTPS read-only handler mounted behind the signed machine contract; HMAC secret provisioned only in secure environment configuration.
+- Activate the already deployed, default-disabled Rivet HTTPS handler only after a protected HMAC secret and independent restricted database credentials are installed. Do not permit a public/bulk reader.
 - IWCO private staff view activated behind separate `IWCO_ATLAS_SOURCE_DETAIL_ENABLED=1` and `IWCO_ATLAS_RIVET_DETAIL_KEY_HEX`. Business-grant assignments must be approved per real staff user.
 - Real hosted read-path proof and audit logging, testing an authorized and unauthorized staff account without disclosing real customer data.
 - Full IWCO CRM regression tests and founder release approval. **Neither the new source role nor the code changes authorize routing actual customer leads yet.**
