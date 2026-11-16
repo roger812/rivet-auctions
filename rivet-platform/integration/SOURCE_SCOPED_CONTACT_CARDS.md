@@ -1,6 +1,6 @@
 # Rivet → IWCO authorized contact-card lookup
 
-**Status: implementation and tests staged, restricted database reader installed in Rivet DEVELOPMENT, and a fail-closed HTTPS Edge endpoint deployed in DEVELOPMENT. The endpoint is NOT ACTIVATED: no source login, reader connection credential, HMAC key or IWCO staff access is provisioned.**
+**Status: implementation and tests staged, restricted database reader plus disabled service identity installed in Rivet DEVELOPMENT, and a fail-closed HTTPS Edge endpoint deployed in DEVELOPMENT. The endpoint is NOT ACTIVATED: no source login capability, reader password, HMAC key or IWCO staff access is provisioned.**
 
 ## User behavior
 When an approved staff member searches **Business leads** in the IWCO CRM and selects **Open contact card** for a `Rivet Auctions` lead, IWCO should display the existing Rivet source record's contact name, phone/email, property address, inquiry kind/stage and reply-permission evidence. This must be **read-only** and must not merge that person into the IWCO homeowner `cases` or `contacts` tables.
@@ -37,6 +37,16 @@ Tracked Supabase migration **`20261116083352_rivet_atlas_no_login_detail_reader_
 **Exact credentials remaining for approved secret management (do not commit):** `RIVET_ATLAS_DETAIL_DB_URL`, `RIVET_ATLAS_DETAIL_DB_CA_PEM`, `RIVET_ATLAS_DETAIL_KEY_HEX`, `RIVET_ATLAS_IWCO_WORKSPACE_ID`. Feature flag `RIVET_ATLAS_SOURCE_DETAIL_ENABLED` remains OFF. A LOGIN identity `rivet_atlas_detail_login` and its secure credential still need to be provisioned with membership in the restrictive NOLOGIN reader role. The live IWCO application must separately set its matching `IWCO_ATLAS_RIVET_DETAIL_KEY_HEX` and opt-in `IWCO_ATLAS_SOURCE_DETAIL_ENABLED` (both currently off/unset).
 
 The endpoint exists only as a disabled, future-configurable component. This is **not** confirmation that the end-to-end authenticated source contact display is operational.
+
+## Inert restricted service principal installed — 2026-11-16
+
+Rivet DEVELOPMENT migration `20261116091829_rivet_atlas_disabled_detail_login_20261116` created `rivet_atlas_detail_login` as a **NOLOGIN**, **NOBYPASSRLS**, **NOSUPERUSER** role, connection limit 2. This is an *inert placeholder*, not a credential. It inherits only the previously audited `rivet_atlas_detail_reader` column-select privileges, with `SET FALSE` and `ADMIN FALSE` on membership.
+
+**Verified against actual Rivet Supabase:** no login ability, no privilege to modify cases, read notes or inspect lead outbox; email and reply-consent column reads only through the restricted inherited role. Source contacts, cases and outbox all remain **0**. Security advisor reported only pre-existing information notices for deny-by-default RLS policies. The same role and an exact source-case join passed in disposable PostgreSQL CI, [Rivet Actions 43835904054](https://github.com/roger812/rivet-auctions/actions/runs/43835904054).
+
+**Not provisioned:** a database password, a secure source-service database URL/CA, long-lived matching HMAC credentials, and actual allowed IWCO staff assignments. The connected Supabase toolset supports project SQL and function deploys, **not Edge Function secret management**; do not install passwords with ad-hoc SQL and reveal them in tool outputs or source control. For an approved activation, use [Supabase Edge Function secrets](https://supabase.com/dashboard/project/kxcziyznpvbkgtgscdsd/functions/secrets), provision and rotate a dedicated service password in the protected database administrator channel, then verify it does not acquire additional privileges. The corresponding IWCO private backend secret is separately stored in its hosting secrets manager.
+
+A password and `LOGIN` capability should be granted only at the same time both backend secret stores and the protected service runtime are ready, and only after the stored target has been verified to be the restricted Rivet project. Never copy passwords, shared HMAC values, service-role keys or connection strings into GitHub, issue comments or ordinary chat.
 
 ## Do not activate without
 - Separate restricted **LOGIN** backend identity allowed to assume `rivet_atlas_detail_reader`, with protected credentials and verified TLS. No browser client or broad `postgres` key.
