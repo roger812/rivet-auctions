@@ -1,0 +1,59 @@
+name: Rivet real-Postgres intake proof (isolated CI)
+
+on:
+  pull_request:
+    paths:
+      - "rivet-platform/**"
+      - ".github/workflows/rivet-private-intake-integration.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-intake-with-real-postgres:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: test-only-rivet-ci
+          POSTGRES_DB: rivet_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d rivet_ci"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: "5432"
+      PGUSER: postgres
+      PGPASSWORD: test-only-rivet-ci
+      PGDATABASE: rivet_ci
+      RIVET_CI_PROOF: "1"
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Create disposable roles and apply Rivet-only schema
+        working-directory: rivet-platform
+        run: |
+          psql -X -v ON_ERROR_STOP=1 -c "CREATE ROLE anon NOLOGIN; CREATE ROLE authenticated NOLOGIN; CREATE ROLE service_role NOLOGIN;"
+          psql -X -v ON_ERROR_STOP=1 -f sql/initial-schema.sql
+          psql -X -v ON_ERROR_STOP=1 -f sql/lead-outbox.sql
+      - name: Install pinned test-only PostgreSQL client
+        working-directory: rivet-platform
+        run: npm install --no-save --package-lock=false --ignore-scripts --no-audit --no-fund pg@8.16.3
+      - name: Execute actual HTTP intake handler against disposable Postgres
+        working-directory: rivet-platform
+        run: |
+          node --check integration/ci-postgres-proof.mjs
+          node integration/ci-postgres-proof.mjs
