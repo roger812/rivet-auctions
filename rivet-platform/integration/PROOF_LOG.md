@@ -52,4 +52,18 @@ The **existing IWCO staff CRM** is the intended single operator inbox for IWCO, 
 - Supabase's security advisors reported only eight **INFO** \`rls_enabled_no_policy\` notices for the private Rivet tables; those are intentional deny-by-default controls, not an authorization grant.
 - Reproducible temporary proof source: \`integration/edge-private-proof/index.ts\`. This is a **server-side Deno compatibility proof**, not an assertion that the separate Render/Node 22 runtime or cross-company network integration has been deployed.
 
-**What is now verified:** Actual Rivet application repository → actual Rivet development Supabase. **What is not:** Node 22 on Render → Supabase; real authenticated Rivet → IWCO network transport; the live IWCO business-lead schema/grants; or end-user detail access. Separate environments and real customer data remain unchanged.
+**What is now verified:** Actual Rivet application repository → actual Rivet development Supabase. **What is not yet enabled:** Node 22 on Render → Supabase; production Rivet → IWCO durable delivery and persistence; the live IWCO business-lead schema/grants; or end-user detail access. Separate environments and real customer data remain unchanged.
+
+
+## Actual signed Rivet-to-IWCO HTTPS connection proof — 2026-11-16, ~07:56 UTC
+
+**PASSED**: A fictional, metadata-only Rivet event traversed a **real HTTPS request from the Rivet Supabase project to the separate IWCO Supabase project**.
+
+- The sender used the real `createRivetAtlasSender` module; the IWCO test receiver used the real `createAtlasLeadReceiver` and strict lead-index normalization. Supabase Edge functions were temporary, protected by a short-lived 256-bit test HMAC/challenge, and did not touch production customer records or Render routes.
+- **Observed HTTP 200** from the Rivet source. Body: `proof=passed`, `transport=actual_cross_project_https`, `signature=verified`, `business=Rivet Auctions`, `source=google`, `delivered=true`, and **`receiverPersistent=false`**.
+- The first test encountered the Deno compatibility error `Buffer is not defined`. Fixed this by explicit `node:buffer` imports in Rivet `src/atlas-signed-delivery.mjs` and IWCO `application/atlas-inbox/receiver.mjs`, then the real HTTPS retest passed.
+- **This smoke receiver DID NOT write the IWCO lead-index database.** The prior disposable-PostgreSQL cross-repo CI did prove the actual index persistence, authorization, and search logic separately; the two proofs are not equivalent to an active production service.
+- After passing, both temporary functions were redeployed to JWT-gated **410 Gone** inert handlers, version 4. The Rivet `pg_net` test-only extension and `net` schema were removed again. Post-cleanup Rivet `contacts=0`, `cases=0`, `outbox=0`.
+- Read-only verification of the actual IWCO project `llizgsrbqhonvruxaoho`: neither `iwco_v1.atlas_lead_index` nor `iwco_v1.atlas_business_access` is installed yet. No authorized business grants, customer PII, SMS/email or production route were changed.
+
+**Remaining activation gates:** review and install new IWCO private metadata-index tables and least-privilege runtime grants, set independently managed production HMAC secret on source and receiver, verify production Node/Render backend connection, deploy the durable source outbox worker, prove signed delivery **persists** and is searchable by a real authorized staff account, and only then enable real lead routing.
