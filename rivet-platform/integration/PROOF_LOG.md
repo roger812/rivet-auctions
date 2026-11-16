@@ -12,11 +12,11 @@ The **existing IWCO staff CRM** is the intended single operator inbox for IWCO, 
 - Tool result: `schema_proof=passed; contacts=0; cases=0; inquiries=0; outbox=0; anon_denied=true; ordinary_users_denied=true`.
 - No customer data was used or imported. All fixture writes were rolled back and the final counts were zero.
 
-## Implementation staged, NOT yet live-verified
+## Dedicated Node/Render-hosted proof still staged (not yet executed on Node hosting)
 - `src/server-db.mjs` validates Rivet-only database host/username, requires a private CA certificate and requires verified server-side TLS.
 - `tests/server-db.test.mjs` has no real credentials and tests this configuration.
 - `integration/live-repository-proof.mjs` composes the **actual** public intake handler with the Postgres repository through a verified server-side connection. The test uses an outer transaction plus inner savepoints, so it cannot commit fictional data to a live inbox or send a lead to IWCO.
-- **That Node end-to-end test has not yet run**: no database password/CA or private runner has been provided to this work session. No claims of app-level live DB connectivity, GitHub Actions results, or IWCO CRM delivery are authorized by the SQL proof.
+- **The Node 22/Render-hosted variant has not yet run**: no protected external-host database password, exact Supabase pooler hostname or CA has been supplied. The actual repository code did subsequently connect on Supabase's own server-side Edge (Deno) runtime (evidence below), but that does not verify the Node 22/Render network path or IWCO CRM delivery.
 
 ## Controlled private Node test prerequisites
 1. Run on a trusted private backend/runner with Node 22+ and reviewed pinned `pg` client (for example `8.23.1`). Do not install a driver in a public browser, publish credentials, or copy a database password into an issue/chat.
@@ -39,3 +39,17 @@ The **existing IWCO staff CRM** is the intended single operator inbox for IWCO, 
 - Confirmed: 201 first seller inquiry; seven related private records; `rivet-auctions` metadata event without customer PII; 200 identical replay; 409 altered replay; 503 deliberate outbox failure with zero partial contact; all eight tables use RLS and both public/authenticated roles cannot read; all fictional writes rolled back.
 - This **complements**, but does **not** replace, the live Rivet Supabase connection proof. That distinct gate still requires a private runner/credential and remains open.
 - No IWCO code, configuration, customer records, Render service, email or SMS state changed.
+
+## REAL Rivet project app-to-Supabase integration proof — 2026-11-16 07:48 UTC
+
+**PASSED** against the genuine project \`kxcziyznpvbkgtgscdsd\` using a temporary authenticated Supabase Edge Function (Deno runtime, Node-compatible pinned \`pg@8.16.3\`) and actual \`createRivetPublicIntake\`, \`createRivetPostgresRepository\` and \`makeRivetAuctionLeadEnvelope\` source files copied from this branch.
+
+- The Edge environment supplied its protected \`SUPABASE_DB_URL\`; no database password or service-role key was exposed to the browser, repository, chat or CI.
+- A 256-bit single-use authorization token was stored **only as a SHA-256 hash** in an expiring private \`rivet.dev_proof_tokens\` table; Edge also required \`verify_jwt=true\`. Admin-triggered invocation used Supabase's \`pg_net\` in the *development project*, never the IWCO project.
+- One fictional seller inquiry exercised the **real** application handler against the **actual** private Rivet PostgreSQL database within an outer rollback transaction. Verified seven linked relational record types, metadata-only lead event, 201 first intake, 200 duplicate replay, 409 changed-body conflict, 503 injected outbox failure, no orphan contact, and blocked anonymous/authenticated reads.
+- The HTTP response was **200** with \`{"proof":"passed","location":"rivet-development-supabase","fictional_records_remaining":0,"iwco_modified":false}\`. SQL verification afterward returned **contacts=0; cases=0; inquiries=0; outbox=0; anon_denied=true**.
+- The temporary Edge Function \`rivet-dev-one-time-proof\` was immediately **redeployed as an inert 410 Gone response**, version 2, still JWT-gated. The proof-token table, \`pg_net\` extension and temporary \`net\` schema were removed. SQL post-cleanup verified those are absent. No real records or customer communications were created.
+- Supabase's security advisors reported only eight **INFO** \`rls_enabled_no_policy\` notices for the private Rivet tables; those are intentional deny-by-default controls, not an authorization grant.
+- Reproducible temporary proof source: \`integration/edge-private-proof/index.ts\`. This is a **server-side Deno compatibility proof**, not an assertion that the separate Render/Node 22 runtime or cross-company network integration has been deployed.
+
+**What is now verified:** Actual Rivet application repository → actual Rivet development Supabase. **What is not:** Node 22 on Render → Supabase; real authenticated Rivet → IWCO network transport; the live IWCO business-lead schema/grants; or end-user detail access. Separate environments and real customer data remain unchanged.
