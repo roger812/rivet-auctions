@@ -84,7 +84,9 @@ export function createRivetAtlasDetailReader({
      'WHERE c.id=$1 AND i.id=$2 LIMIT 1',
      [q.leadRef,q.inquiryRef]
    );
-   if(result.rowCount!==1)reject('rivet_detail_not_found');
+   if(result.rowCount!==1||result.rows[0]?.case_id!==q.leadRef||
+      result.rows[0]?.inquiry_id!==q.inquiryRef)
+    reject('rivet_detail_not_found');
    const row=result.rows[0];
    if(!['seller','buyer'].includes(row.kind)||
       typeof row.reply_consent!=='boolean')
