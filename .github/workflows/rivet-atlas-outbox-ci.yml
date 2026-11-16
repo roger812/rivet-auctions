@@ -1,0 +1,71 @@
+name: Rivet Atlas outbox worker PostgreSQL proof (isolated)
+
+on:
+  pull_request:
+    paths:
+      - "rivet-platform/**"
+      - ".github/workflows/rivet-atlas-outbox-ci.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  isolated-queue-worker:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: disposable-ci-only
+          POSTGRES_DB: rivet_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d rivet_ci"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: "5432"
+      PGUSER: postgres
+      PGPASSWORD: disposable-ci-only
+      PGDATABASE: rivet_ci
+      RIVET_CI_PROOF: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Validate worker syntax
+        working-directory: rivet-platform
+        run: |
+          node --check src/atlas-outbox-worker.mjs
+          node --check src/atlas-signed-delivery.mjs
+          node --check src/atlas-private-job.mjs
+          node --check src/atlas-lead-detail.mjs
+          node --check src/atlas-detail-db.mjs
+          node --check bin/atlas-delivery-once.mjs
+          node --check integration/ci-atlas-outbox-proof.mjs
+      - name: Run migration and lease constraint checks in disposable Postgres
+        working-directory: rivet-platform/sql
+        run: psql -X -v ON_ERROR_STOP=1 -f ci-outbox-worker-proof.sql
+      - name: Prove column-limited, no-login source contact read role in disposable PostgreSQL
+        working-directory: rivet-platform/sql
+        run: |
+          psql -X -v ON_ERROR_STOP=1 -f atlas-read-only-detail-role.sql
+          psql -X -v ON_ERROR_STOP=1 -f ci-atlas-detail-role-proof.sql
+          psql -X -v ON_ERROR_STOP=1 -f atlas-detail-disabled-service-principal.sql
+          psql -X -v ON_ERROR_STOP=1 -f ci-atlas-disabled-principal-proof.sql
+      - name: Install test-only PostgreSQL adapter
+        working-directory: rivet-platform
+        run: npm install --no-save --package-lock=false --ignore-scripts --no-audit --no-fund pg@8.16.3
+      - name: Real PostgreSQL worker retry and recovery test (no external endpoint)
+        working-directory: rivet-platform
+        run: node integration/ci-atlas-outbox-proof.mjs
+      - name: Rerun full Rivet no-network unit suite
+        working-directory: rivet-platform
+        run: npm test
