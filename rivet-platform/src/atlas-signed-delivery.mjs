@@ -5,6 +5,7 @@
  * by this module; production activation is a SEPARATE reviewed step.
  */
 import {createHmac} from 'node:crypto';
+import {Buffer} from 'node:buffer';
 const HEX=/^[a-f0-9]{64}$/;
 const UUID=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const URL_APPROVED='https://iwco-private-preview-proof-morm.onrender.com/api/integrations/atlas/leads';
