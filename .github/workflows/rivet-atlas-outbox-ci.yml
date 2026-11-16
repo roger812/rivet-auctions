@@ -46,6 +46,8 @@ jobs:
           node --check src/atlas-outbox-worker.mjs
           node --check src/atlas-signed-delivery.mjs
           node --check src/atlas-private-job.mjs
+          node --check src/atlas-lead-detail.mjs
+          node --check src/atlas-detail-db.mjs
           node --check bin/atlas-delivery-once.mjs
           node --check integration/ci-atlas-outbox-proof.mjs
       - name: Run migration and lease constraint checks in disposable Postgres
