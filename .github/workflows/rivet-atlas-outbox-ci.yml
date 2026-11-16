@@ -58,6 +58,8 @@ jobs:
         run: |
           psql -X -v ON_ERROR_STOP=1 -f atlas-read-only-detail-role.sql
           psql -X -v ON_ERROR_STOP=1 -f ci-atlas-detail-role-proof.sql
+          psql -X -v ON_ERROR_STOP=1 -f atlas-detail-disabled-service-principal.sql
+          psql -X -v ON_ERROR_STOP=1 -f ci-atlas-disabled-principal-proof.sql
       - name: Install test-only PostgreSQL adapter
         working-directory: rivet-platform
         run: npm install --no-save --package-lock=false --ignore-scripts --no-audit --no-fund pg@8.16.3
