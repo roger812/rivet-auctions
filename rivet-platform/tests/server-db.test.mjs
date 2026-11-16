@@ -10,7 +10,7 @@ class FakePool { constructor(config) { this.config = config; } }
 
 test('only the Rivet DEV database may be configured',()=>{
   assert.throws(()=>createRivetDevelopmentPool({Pool:FakePool,connectionString:direct.replace(RIVET_DEVELOPMENT_PROJECT_REF,'wrong-project'),caCertificate:certificate}),/wrong_rivet_database_project/);
-  assert.throws(()=>createRivetDevelopmentPool({Pool:FakePool,connectionString:direct.replace('postgres:','postgresql-invalid:'),caCertificate:certificate}),/invalid_rivet_db_url/);
+  assert.throws(()=>createRivetDevelopmentPool({Pool:FakePool,connectionString:direct.replace('postgresql:','http:'),caCertificate:certificate}),/invalid_rivet_db_url/);
   assert.throws(()=>createRivetDevelopmentPool({Pool:FakePool,connectionString:direct}),/rivet_ca_certificate_required/);
   assert.throws(()=>createRivetDevelopmentPool({connectionString:direct,caCertificate:certificate}),/server_pg_pool_required/);
 });
