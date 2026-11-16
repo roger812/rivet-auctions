@@ -22,17 +22,17 @@ END $checks$;
 -- Use a transaction for all fictional fixtures and always roll back.
 BEGIN;
 INSERT INTO rivet.contacts(id,display_name,email,preferred_reply)
- VALUES('2f4c824e-c10a-4d82-9144-7ac4a622e21b','Fictional Role Proof',
+ VALUES('10000000-0000-4000-8000-000000000001','Fictional Role Proof',
  'fictional-role@example.invalid','email');
 INSERT INTO rivet.properties(id,submitted_address,state)
- VALUES('3ea03688-9702-4a70-8407-3f4a236a8556','123 Fictional Street','TX');
+ VALUES('10000000-0000-4000-8000-000000000002','123 Fictional Street','TX');
 INSERT INTO rivet.cases(id,contact_id,property_id,kind,source)
- VALUES('7c702cb9-9ee1-4bde-bb80-05ad2987c813',
- '2f4c824e-c10a-4d82-9144-7ac4a622e21b',
- '3ea03688-9702-4a70-8407-3f4a236a8556','seller','test');
+ VALUES('10000000-0000-4000-8000-000000000003',
+ '10000000-0000-4000-8000-000000000001',
+ '10000000-0000-4000-8000-000000000002','seller','test');
 INSERT INTO rivet.inquiries(id,case_id,request_key,body_hash,reply_consent,consent_version)
- VALUES('c76407fe-b730-4194-99f6-e87bcf65b543',
- '7c702cb9-9ee1-4bde-bb80-05ad2987c813',
+ VALUES('10000000-0000-4000-8000-000000000004',
+ '10000000-0000-4000-8000-000000000003',
  'ci-detail-role-proof-20261116',repeat('a',64),true,'v1');
 SET LOCAL ROLE rivet_atlas_detail_reader;
 DO $check$
@@ -42,8 +42,8 @@ BEGIN
  JOIN rivet.inquiries i ON i.case_id=c.id
  JOIN rivet.contacts ct ON ct.id=c.contact_id
  LEFT JOIN rivet.properties p ON p.id=c.property_id
- WHERE c.id='7c702cb9-9ee1-4bde-bb80-05ad2987c813'
-  AND i.id='c76407fe-b730-4194-99f6-e87bcf65b543';
+ WHERE c.id='10000000-0000-4000-8000-000000000003'
+  AND i.id='10000000-0000-4000-8000-000000000004';
  IF n<>1 THEN RAISE EXCEPTION 'minimal source join invisible under read role';END IF;
 END $check$;
 RESET ROLE;
