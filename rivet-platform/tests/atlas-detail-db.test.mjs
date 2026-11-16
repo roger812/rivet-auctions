@@ -20,7 +20,7 @@ test('direct restricted Rivet role requires verified CA and a bounded pool',()=>
 test('source role pooler connection remains bound to Rivet development project',()=>{
  calls.length=0;
  const pool=createRivetAtlasDetailPool({Pool:FakePool,connectionString:pooled,caCertificate:cert});
- assert.equal(pool.options.ssl.servername,'aws-0-us-east-1.pooler.supabase.com');
+ assert.equal(pool.options.ssl.servername,'aws-1-us-east-1.pooler.supabase.com');
  assert.equal(calls.length,1);
 });
 test('admin, other-company identity, wrong region/port, bad credentials and malformed CA fail before pool',()=>{
