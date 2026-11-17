@@ -51,9 +51,9 @@
 - [ ] Final approved fee / agent / reserve / premium explanation for real transactions (separate legal gate).
 ### B. IWCO — before Nov 18 Search delivery
 - [ ] Verify signed-in Google campaign live state, final URLs/tracking, billing and eligibility (disconnected browser snapshot not authoritative).
-- [ ] Verify live homeowner paths and server-confirmed receipt with prior retained proof; **do not create fake production clients**.
-- [ ] Named founder response coverage for tomorrow; test/observe alert→human response and fallback, using first genuine inquiry where appropriate.
-- [ ] Operator GO/HOLD decision, not an assumed automatic launch.
+- [ ] Recheck live homeowner paths and retain prior verified server-confirmed receipt/conversion evidence; **do not create fake production clients**.
+- [ ] Named founder response coverage for tomorrow and tested internal alert/off-switch. Treat **first genuine lead→actual acknowledgment/reply as closely monitored post-launch acceptance** for a limited pilot, rather than demanding a genuine new lead before any means of attracting one. Do not scale or leave ads unattended without that proof.
+- [ ] Operator GO/HOLD for a **small monitored pilot**, based on current signed-in Ads status, functioning internal alert test, reachable destinations and available human coverage. First genuinely acquired lead is a required **post-start** response proof and trigger to stop/escalate if failed; it is not proof already collected.
 ### C. RIVET AUCTIONS — before ANY paid acquisition
 - [ ] Actual site publisher and staging preview identified; responsive copy/image UX implemented.
 - [ ] Protected runtime DB and scoped CRM integration (Rivet #1) closed with evidence.
