@@ -1,10 +1,12 @@
 # Atlas | Unified Seller-Options Messaging System
+
+> **Founder clarification, Nov 17:** Rivet Auctions is Roger's own company. No outside brokerage is automatically affiliated; listing-broker participation requires an actual agreement for the property. Marketing assets must not imply otherwise.
 **Draft V1 · November 17, 2026 · Cross-brand creative source of truth · NOT APPROVED PUBLIC COPY**
 
 ## Executive thesis
-**Rivet Auctions is primarily a seller-acquisition differentiator for the existing Rivet Real Estate relationship.** It should help a homeowner recognize that the firm can evaluate more than one approach to selling, while preserving the level of human guidance, negotiation support and transactional care associated with a full-service brokerage.
+**Rivet Auctions is Roger's independently owned auction business, intended to create additional seller relationships across his businesses.** Its auction method can be paired with separately contracted listing brokerage representation where appropriate. Brokerage-level care depends on the actual agreement and services delivered, not an automatic sponsorship or business ownership relationship.
 
-Rivet Real Estate is the brokerage-facing relationship. Rivet Auctions is a seller-selectable auction-style competitive-offer method, marketed and coordinated with the MLS **where actual listing/auction mechanics permit**. I Want Cash Offers (IWCO) is a separate homeowner-options route covering direct purchase and other appropriate alternatives. **These are connected choices, not interchangeable legal entities or interchangeable lead-consent pools.**
+**Entity boundaries:** Rivet Auctions is Roger's own auction business; Rivet Real Estate is a separate brokerage relationship that may participate for individual properties by agreement. MLS marketing is coordinated through the actual engaged listing brokerage, only where applicable. IWCO is a separate homeowner-options business. Referrals require accurate affiliations, permission and business-specific records.
 
 **Umbrella thought:** `Your home. Your circumstances. More than one way forward.`
 This is a working positioning idea, not an approved public slogan or promise that all choices suit every property.
@@ -22,7 +24,7 @@ Not that Texas has no real-estate auctioneers. Competitors exist. The potential 
 | Business | Reason to enter | Primary promise (only when operationally supported) | Primary action |
 | --- | --- | --- | --- |
 | **Rivet Real Estate** | Trusted advisor and full-service sale | Professional guidance to compare viable selling approaches, with a plan appropriate to the home | `Talk through my selling options` |
-| **Rivet Auctions** | Interesting method of selling, not liquidation | Explore whether an MLS-coordinated, structured competitive-offer process makes sense *with brokerage care throughout* | `Explore an auction-style selling plan` |
+| **Rivet Auctions** | Founder-owned auction process | Explore whether a structured competitive-offer auction would fit the property; brokerage representation and MLS exposure where separately arranged | `Explore an auction-style selling plan` |
 | **IWCO** | As-is/direct purchase and homeowner choices | Explore cash, conventional sale or staying put where appropriate without pressure; inquiry isn't an offer | `Explore my options` |
 
 ### Core language and behavior
@@ -47,7 +49,7 @@ Not that Texas has no real-estate auctioneers. Competitors exist. The potential 
 An interested seller enters one **clearly identified** brand. At consultation, present *only appropriate* alternatives. If a seller chooses an affiliated business, explain relationship, who will contact them, and obtain relevant permission before transferring their identifiable information. Keep business/source attribution and permissions intact. An auction option must actually be available; do not use it as bait for an ordinary listing.
 
 **Consumer-facing affiliation draft (review):**
-`Rivet Auctions is an auction-style selling option offered alongside Rivet Real Estate's brokerage services. We'll explain the available approaches, their requirements and costs before you decide. If another route may fit better, we'll explain why.`
+`Rivet Auctions is Roger's auction business. For a property with an agreed listing-broker relationship, its auction process may work with professional brokerage representation and MLS exposure where appropriate. We will explain the people involved, actual terms and costs before you choose.`
 
 **IWCO handoff draft (review):**
 `A cash offer may not be the best fit for every home. With your permission, we can help you explore a separate brokerage consultation through Rivet Real Estate.`
@@ -59,7 +61,7 @@ An interested seller enters one **clearly identified** brand. At consultation, p
 - Preserve rival hypotheses in [Atlas dissent #9](https://github.com/roger812/rivet-auctions/issues/9); commercial experiment in [#12](https://github.com/roger812/rivet-auctions/issues/12).
 
 ### Compliance / reality checks
-The live `rivetre.com` currently displays licensed broker `SIDE, INC.` in the footer. Any new ads, seller pages, business claims, sub-brand naming and broker display need validation against the **current actual licensed brokerage/sponsorship**. Do not use misleading 'Rivet is an independently licensed brokerage' language without proof. TREC §535.155 applies to broker/agent advertising. Auction/reserve/compensation specifics require written final terms and brokerage/auction counsel before live use. No 6% buyer premium or $500 listing-agent model is approved public pricing (see [#10](https://github.com/roger812/rivet-auctions/issues/10), [#11](https://github.com/roger812/rivet-auctions/issues/11)).
+**Founder clarification:** Rivet Auctions is Roger's company. An external licensed listing brokerage participates only through a property-specific agreement; do not infer auction-company ownership, operation or sponsorship from a separate brokerage website. Confirm the actual auctioneer, brokerage, agency, MLS and advertising disclosures before public offers.
 
 Sources: https://www.trec.texas.gov/agency-information/rules-and-laws/trec-rules ; https://www.texasrealestate.com/legal-and-ethics/legal-resources/legal-faqs/advertising ; https://rivetre.com/ ; https://iwantcashoffers.com/
 
