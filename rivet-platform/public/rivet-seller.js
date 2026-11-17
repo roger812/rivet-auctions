@@ -44,6 +44,10 @@
       say('error', 'Please confirm that our team may reply about this inquiry.');
       return;
     }
+    if (payload.preferredReply !== 'email' && !payload.phone) {
+      say('error', 'Please add your phone number to request a call or text reply.');
+      return;
+    }
     if (!requestKey) requestKey = window.crypto.randomUUID();
     button.disabled = true;
     say('pending', 'Sending your request securely…');
