@@ -48,3 +48,20 @@ Run the tests from `rivet-platform` with Node 22+: `npm test`. There are no exte
 6. Archive obsolete repository/site prototypes after the replacement is proven. Delete only with explicit owner approval and exact targets.
 
 **Live status:** Rivet Supabase development schema plus metadata-only lead outbox installed (no customer records imported); no Render service for Rivet created and no live site, DNS, customer records, or IWCO resources changed by this development work.
+
+
+## Seller-first website preview (November 17, 2026)
+
+**Source:** `public/seller-site.html`, `public/rivet-seller.css`, `public/rivet-seller.js`; opt-in delivery in `src/public-pages.mjs`, integrated into `src/application.mjs`. This is a working local-site candidate, **not** the existing `rivetauctions.com` publisher or a production deployment.
+
+- Run `npm run preview` from `rivet-platform`, then open `http://127.0.0.1:4173`. The preview listens **only on loopback**, has no connected inquiry form without a verified Turnstile configuration, and cannot access private CRM data.
+- Run `npm test` and `npm run check:site` to verify the app and static resources.
+- When integrating the real Node application, set `publicSiteEnabled: true` in `createRivetApplication`. It is **false by default**, so existing API-only services remain unchanged.
+- To expose a public seller inquiry form, provide an actual `turnstileSiteKey` to `createRivetApplication`, plus real server-side Turnstile verification, trusted rate limiting, a Rivet-only repository with atomic receipt/case saves, and protected staff sessions. Missing any backend dependency must fail closed; do not use fake production adapters.
+- `GET /` serves a no-index seller page; `GET /assets/rivet-seller.css` and `GET /assets/rivet-seller.js` serve same-origin assets. `POST /api/inquiries` remains owned by the existing verified backend; the form displays success **only after an actual `status: received` and non-empty `reference`** response. No unverified `/team` or CRM endpoint is exposed.
+- The text describes Rivet Auctions as Roger's own auction business and the planned, legally unreviewed **same-table two-agreement** flow: Rivet Auctions agreement first, separate Rivet Real Estate listing agreement immediately afterward. No brokerage sponsorship is inferred from a different site's footer.
+- Buyer-agent instructions, prices, reserve/confirmation rights, MLS and fee disclosures are property-specific. No highest-bid board, property catalog, video recording or real-auction intake has been implemented.
+- The hero illustration is CSS art **for development only**. Replace it with approved, licensed daylight photography before a consumer-facing campaign; do not reuse the criticized luxury-property photo by default.
+- This server is not suitable to serve live inquiries until the release gates in [engineering #1](https://github.com/roger812/rivet-auctions/issues/1), [marketing #4](https://github.com/roger812/rivet-auctions/issues/4), and [deferred contract legal #11](https://github.com/roger812/rivet-auctions/issues/11) are closed with evidence.
+
+**No DNS, ad campaign, production site, customer data, broker agreement or Render deployment is changed by this source code.**
