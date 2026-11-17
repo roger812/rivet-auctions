@@ -28,6 +28,9 @@
 **Seller consult CTA form note:** `Tell us about your property and the result you hope to achieve. We’ll explain which strategies appear worth considering. Your request is for a consultation, not an agreement to list or auction.`
 **Publisher checklist:** verified contact destination, form receipt test, registered brokerage naming, TREC IABS/Consumer Protection Notice and fair housing; link to distinct Rivet auction intro only after its content is accepted.
 
+### Auction-option contracting — intended customer sequence
+When a seller elects the jointly arranged auction option, the planned **same-table process** is **Rivet Auctions engagement first**, followed by coordination with **Rivet Real Estate** and an **immediately subsequent, separate Rivet Real Estate listing agreement** with the homeowner. Neither agreement is automatically created by the other. This is founder-designated business intent, not approved legal language or a live document. See [full agreement flow](./RIVET_AUCTIONS_SAME_TABLE_AGREEMENT_FLOW_2026-11-17.md).
+
 ## B. IWCO — minimal, truthful addition
 **Actual page reviewed:** https://iwantcashoffers.com/ (current copy already emphasizes cash offers, comparing options, staying in the home or uncertainty). Preserve its clear four-option intake and current responsive journey. Do not turn IWCO into the branded auction pitch or override its privacy/permission model.
 
