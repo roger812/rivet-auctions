@@ -8,6 +8,9 @@
 
 **Entity boundaries:** Rivet Auctions is Roger's own auction business; Rivet Real Estate is a separate brokerage relationship that may participate for individual properties by agreement. MLS marketing is coordinated through the actual engaged listing brokerage, only where applicable. IWCO is a separate homeowner-options business. Referrals require accurate affiliations, permission and business-specific records.
 
+### Founder-intended two-agreement sequence — same consultation
+**Working operational design, not yet legally cleared:** the homeowner signs the **Rivet Auctions agreement first**. After that engagement, Rivet Auctions coordinates its property-specific partnership with **Rivet Real Estate**. **Immediately afterward, at the same table**, the homeowner signs a **separate Rivet Real Estate listing agreement**. The brokerage relationship is not created merely by the first auction agreement. The seller must understand the distinct duties, fees and parties before signing. See [same-table agreement flow](./RIVET_AUCTIONS_SAME_TABLE_AGREEMENT_FLOW_2026-11-17.md) and [deferred legal review #11](https://github.com/roger812/rivet-auctions/issues/11). The design does not authorize a live unreviewed contract.
+
 **Umbrella thought:** `Your home. Your circumstances. More than one way forward.`
 This is a working positioning idea, not an approved public slogan or promise that all choices suit every property.
 
