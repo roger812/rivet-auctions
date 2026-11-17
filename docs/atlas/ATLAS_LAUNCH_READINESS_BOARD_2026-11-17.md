@@ -28,6 +28,12 @@
 | **IWCO ChatGPT Ads** | Ads Manager read on Nov17: one standard `IWCO - Explore Home Options - Photo V1`, approved, **paused**; campaign also paused; $50/day when enabled. | Baseline reviewed; 5 copy proposals prepared. | Ads remain paused. Image approval + final write confirmation required before creating variants; separate explicit activation/spend approval. |
 | **Rivet Real Estate site** | `https://rivetre.com/` is a distinct Luxury Presence site with seller content, a buyer-oriented hero and separately displayed broker information. This does NOT establish any relationship with founder-owned Rivet Auctions. | New seller module draft exists. | Verify publisher access and brokerage identity for that business; any joint property requires a separate agreement. |
 
+## Founder-defined contracting flow (separate from fee decision)
+- Homeowner **first enters a Rivet Auctions agreement** with Roger's own auction business.
+- Rivet Auctions coordinates with Rivet Real Estate **after** the first agreement for that property.
+- The homeowner signs **a distinct Rivet Real Estate listing agreement at the same table, immediately afterward**. The two parties' scope and seller representation must be accurate before either signature.
+- **Before real customers sign**, legal/brokerage review must address the order, disclosure timing, conditions if the second agreement is not signed, parties' duties, fees and licensing. This is a **deferred legal design question**, not a reason to halt private creative preparation. Details: [same-table agreement document](./RIVET_AUCTIONS_SAME_TABLE_AGREEMENT_FLOW_2026-11-17.md) and [legal issue #11](https://github.com/roger812/rivet-auctions/issues/11).
+
 ## Non-negotiable consumer experience and compliance acceptance
 - **One clear audience & CTA per page**. Seller ad → seller page → acknowledged consultation. Agent ad → instructions for participating agents, not seller lead form.
 - **Same care** cannot be marketing-only: assigned licensed broker/agent, property review, marketing plan, authorized offer process, agent communications, contingencies, transaction coordination, conflict handling, and written fee clarity. Define what is included.
