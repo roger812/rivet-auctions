@@ -74,6 +74,9 @@ A believable, attractive but not luxury-coded **daylight Central Texas single-fa
 
 ## Frequently asked questions — approved-tone draft, subject to transaction review
 
+**How would Rivet Auctions and Rivet Real Estate work together?**
+Our intended experience begins with an agreement between you and Rivet Auctions. If you decide to proceed with the paired offering, we then explain the role of Rivet Real Estate, and at the same consultation you review a **separate listing agreement** with Rivet Real Estate. You should know what each company does, who represents you, and what each agreement costs and requires before you sign. **Internal copy draft only:** final agreements and customer wording require legal and brokerage review.
+
 **Is this a regular real estate listing or an auction?**
 Rivet Auctions is Roger's auction business. With a separately engaged listing broker, its auction method may be coordinated with actual brokerage representation and MLS exposure where appropriate. The property-specific agreements identify each participant's role and compensation.
 
