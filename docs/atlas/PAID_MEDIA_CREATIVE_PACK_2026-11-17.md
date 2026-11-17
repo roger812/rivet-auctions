@@ -25,7 +25,7 @@
 6. Another Way to Sell Your Home
 7. Rivet Auctions in Austin
 8. A Clearer Selling Plan
-9. Is Auction Right for Your Home?
+9. Could an Auction Fit My Home?
 10. MLS-Coordinated Selling
 11. Talk Through Your Options
 12. Your Home. Your Next Move.
