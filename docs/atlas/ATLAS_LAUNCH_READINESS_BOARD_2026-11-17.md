@@ -1,4 +1,6 @@
 # Atlas Same-Day Messaging & Launch Readiness — Executive Gate Board
+
+> **Founder clarification, Nov 17:** Rivet Auctions is Roger's own company. No outside brokerage is automatically affiliated; listing-broker participation requires an actual agreement for the property. Marketing assets must not imply otherwise.
 **November 17, 2026 · Owner: Nathan (decision) / Jordan (continuity) / Daniel (release)**
 **Status:** Copy package drafted; **NOT** a blanket authorization to deploy, run ads, spend, disclose a selected premium or enroll customers.
 **Goal:** End today with a coherent, reviewable creative system and the shortest verified path toward advertising without false claims or disruption to current IWCO work.
@@ -24,14 +26,14 @@
 | **IWCO alerts** | [IWCO #160](https://github.com/roger812/iwco-development/issues/160) Nov17 comments: founder-only SendGrid alert enabled, internal Gmail receipt verified, prospective cutoff 11:35:02am Central and OFF switch rehearsed. | Verified private alert transport setup, not a genuine first homeowner cycle. | First real eligible inquiry, alert to founder, explicit acknowledgment, permitted reply, task/status, escalation/rollback observations; don't manufacture a real production lead. |
 | **IWCO Google Search** | Connected Chrome tab showing enabled `IWCO | Austin | Search | Homeowner Inquiry | V1`, $50/day, `Pending`, ad strength `Poor`, 0 impressions on snapshot, **disconnection / ad blocker** banners. | Prior approved Nov18 budget/date and earlier conversion proof in [IWCO #131](https://github.com/roger812/iwco-development/issues/131). | Live signed-in readback for account eligibility, campaign status/schedule, final URL(s), site form, attribution, biller and staffing. Snapshot is stale and cannot establish what will run tomorrow. No silent changes. |
 | **IWCO ChatGPT Ads** | Ads Manager read on Nov17: one standard `IWCO - Explore Home Options - Photo V1`, approved, **paused**; campaign also paused; $50/day when enabled. | Baseline reviewed; 5 copy proposals prepared. | Ads remain paused. Image approval + final write confirmation required before creating variants; separate explicit activation/spend approval. |
-| **Rivet Real Estate site** | `https://rivetre.com/` public homepage has buyer-oriented main hero, seller section and actual client testimonials, licensed broker shown as `SIDE, INC.`, site powered by Luxury Presence. | New seller landing/module draft exists. | Confirm publisher/actual brokerage relationships and contact form, broker display, install revised module in CMS and independently QA. No access to third-party CMS write established in this thread. |
+| **Rivet Real Estate site** | `https://rivetre.com/` is a distinct Luxury Presence site with seller content, a buyer-oriented hero and separately displayed broker information. This does NOT establish any relationship with founder-owned Rivet Auctions. | New seller module draft exists. | Verify publisher access and brokerage identity for that business; any joint property requires a separate agreement. |
 
 ## Non-negotiable consumer experience and compliance acceptance
 - **One clear audience & CTA per page**. Seller ad → seller page → acknowledged consultation. Agent ad → instructions for participating agents, not seller lead form.
 - **Same care** cannot be marketing-only: assigned licensed broker/agent, property review, marketing plan, authorized offer process, agent communications, contingencies, transaction coordination, conflict handling, and written fee clarity. Define what is included.
 - **No misleading price comparison**: a highest *price* isn't necessarily best *offer*. Disclose only approved verified/timestamped figures, property-level rules and permission. No guaranteed speed, price, multiple buyers or reserve outcome.
 - **Pricing open:** buyer premium vs conventional commissions and $500 agent proposal remain options, **not final pricing**, see [#10](https://github.com/roger812/rivet-auctions/issues/10), [#11](https://github.com/roger812/rivet-auctions/issues/11). Legal can remain deferred during research and drafts but not during actual property offering/contract/ad-fee promise.
-- **Brokerage ads:** TREC §535.155 requires proper license-holder and broker names; current Rivet RE footer indicates `SIDE, INC.`. Check the registered brand/sponsor before public copy; do not pretend it is independently licensed.
+- **Entity-specific ads:** Rivet Auctions is Roger-owned; no external brokerage is automatically its operator or sponsor. Verify Rivet Auctions' own business/auctioneer disclosures and only identify the property-specific contracted listing broker where applicable; follow current relevant auction, real-estate and MLS rules.
 - **No invented social proof:** attribute Rivet reviews to Rivet; IWCO page currently identifies quotes as other companies' experiences. Do not imply prior Rivet Auction results.
 - **Cross-brand privacy:** explicit informed handoff only, source and individual consent retained, no unrestricted shared customer data.
 - **Fair housing:** service marketing without protected-class filtering, fear-based personal-trait inferences, neighborhood steering or misleading property urgency.
@@ -44,7 +46,7 @@
 - [x] Rivet seller homepage, page/FAQ/CTA/buyer-agent language drafted.
 - [x] Rivet Real Estate and IWCO crossbrand insertions and scripts drafted.
 - [x] Google Search/ChatGPT/social/video **copy** drafted; keyword ideas only, no performance claims.
-- [x] Fee-neutral copy and TREC broker-name flag documented.
+- [x] Fee-neutral copy and property-specific auctioneer/listing-broker boundary documented.
 - [x] Work branch created; original web/code/prod branches unchanged.
 - [ ] Priyanka/Marcus-style challenge review of the message alternatives; role-simulated judgments can be documented but no real employee review presumed.
 - [ ] Approved/licensed photo and footage selected, edited and checked for brand fit.
@@ -59,7 +61,7 @@
 - [ ] Protected runtime DB and scoped CRM integration (Rivet #1) closed with evidence.
 - [ ] Seller + buyer/agent real receipt, staff response, error, auth, idempotency and rollback verified.
 - [ ] Brokerage/auction rules, reserve format, bidder disclosure, compensation pricing, seller authorization reviewed for live use.
-- [ ] Advertising disclosures reviewed, agent/broker footer displayed, consumer FAQ understandable, video footage authorized.
+- [ ] Rivet Auctions business/auctioneer advertising disclosures reviewed; property-specific contracted listing broker identified only where appropriate; FAQ and footage cleared.
 - [ ] Final property-specific participation instructions available or language limited to consultation only.
 - [ ] Financial pilot baseline and incremental seller listing/owner-labor economics tracked (Rivet #12).
 - [ ] Nathan GO/HOLD with evidence; founder approves budget/activation.
