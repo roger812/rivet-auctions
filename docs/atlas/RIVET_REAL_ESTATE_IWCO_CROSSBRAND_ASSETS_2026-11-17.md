@@ -1,14 +1,16 @@
 # Rivet Real Estate + IWCO — Cross-Brand Copy, Consultation and Referral Assets
+
+> **Founder clarification, Nov 17:** Rivet Auctions is Roger's own company. No outside brokerage is automatically affiliated; listing-broker participation requires an actual agreement for the property. Marketing assets must not imply otherwise.
 **Draft V1 · November 17, 2026 · NOT DEPLOYED · NO CUSTOMER SENDS**
 
 ## A. Rivet Real Estate — recommended seller entry module
-**Actual page reviewed:** https://rivetre.com/ (current hero leads with `Where The Focus Is Your Future Home.`; current navigation has Sell With Us and testimonials; site is powered by Luxury Presence, not proven to share the Rivet Auctions GitHub release pipeline). Site footer publicly identifies `SIDE, INC.` as licensed broker; confirm licensed naming and seller representation before publishing. No verified CMS editing access in this working session.
+**Actual page reviewed:** https://rivetre.com/ (buyer-oriented hero, Sell With Us and testimonials; the website is not proven to use the Rivet Auctions GitHub publisher). Any brokerage footer on that separate site does not automatically involve that brokerage with founder-owned Rivet Auctions; a property-specific listing agreement is required.
 
 **Placement:** Add a seller-focused section near the homepage hero or under Sell With Us. Do not break existing buyer MLS search.
 
 **Eyebrow:** SELLING YOUR HOME
 **Headline:** Your next move deserves the right selling strategy.
-**Body:** There's no single approach that fits every home, market and timeline. We help you weigh the options—from a traditional MLS listing to an auction-style competitive-offer process when appropriate—so you can decide with professional real estate guidance at every step.
+**Body:** There's no single approach that fits every home, market and timeline. We can discuss a conventional MLS listing and, where a separate property-specific arrangement is appropriate, an auction-style option through Roger's Rivet Auctions business. Each party's roles, costs and responsibilities are explained before you choose.
 **Primary CTA:** Discuss my selling options
 **Secondary CTA:** Learn about the Rivet Auction approach
 **Honesty line:** We’ll explain the risks, costs and actual process before you choose. No method guarantees a sale, price or date.
@@ -58,7 +60,7 @@
 
 ## E. Agent-facing outreach — short message (not a compensation offer)
 **Subject:** Rivet Auctions: participation instructions for your buyer
-`Rivet Auctions is developing a brokerage-supported competitive-offer route for real property. When a specific property is offered, participating buyer agents should have clear written instructions for documents, deadlines, verified updates and submission contacts. If you have a buyer interested in a Rivet property, ask for that property's approved instructions rather than relying on a generic advertised bid amount. Any buyer-broker compensation is negotiated in the applicable written agreements; nothing in this note constitutes a compensation offer.`
+`Rivet Auctions is developing a founder-owned auction service that can work with a separately contracted listing brokerage for a specific property. Buyers' agents should receive the actual written submission instructions, deadlines, fees and responsible contacts. Buyer-broker compensation is negotiated under the applicable agreements, not offered by this message.`
 *Do not send this until the agent response channel is staffed and the first offered property has actual written rules.*
 
 ## F. Social copy ideas (all prelaunch concept only)
@@ -90,5 +92,5 @@ Suggested normalized measurement fields: `first_touch_brand`, `referral_context`
 - No blanket 'same service level' without checking real signed agent roles, seller responsibilities and contact-to-close workflow.
 - No fake auction testimonials or 'best agents', 'more buyers', 'fastest', 'highest price' unsupported superiority.
 - No fee or buyer-premium numbers before the business chooses a lawful and accurate model. See [#10](https://github.com/roger812/rivet-auctions/issues/10) and [#11](https://github.com/roger812/rivet-auctions/issues/11).
-- Do not assume `rivetre.com` website is controlled by the Rivet Auctions GitHub repo. Current footer identifies `SIDE, INC.` as licensed broker; validate publisher / sponsor details.
+- Do not assume `rivetre.com` is controlled by Rivet Auctions, or that any brokerage represented on that website is automatically involved in a Rivet Auctions property. Verify the actual listing agreement and scope before any joint advertising.
 - No automatic IWCO marketing enrollment or contact data replication based solely on brand affiliation.
