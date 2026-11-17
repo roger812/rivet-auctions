@@ -1,35 +1,37 @@
 # Rivet Auctions — Full Seller-First Website Copy V1
+
+> **Founder clarification, Nov 17:** Rivet Auctions is Roger's company. Any licensed listing brokerage joins through a property-specific agreement; no external brokerage is automatically associated with Rivet Auctions.
 **November 17, 2026 · Prepared for Priyanka, Marcus, Olivia, Brittany & Web · PRIVATE/WORKING COPY · NOT DEPLOYED**
-**Purpose:** Replace confusing 'homes needing work only' framing with a broader, credible *optional auction method within familiar brokerage service*. This document is implementation-ready **copy** only; claims, terms and URLs require verification before publishing.
+**Purpose:** Explain a genuine founder-owned auction service that may work with separately engaged listing brokerage representation and MLS exposure by property-specific agreement. No outside brokerage is automatically Rivet Auctions' sponsor or operator. This is a nonproduction copy draft.
 
 ## Navigation
 `The advantage` · `How it works` · `Is auction right for me?` · `Buyers & agents` · `Questions` · primary button `Explore my options`
 
 ## Above-the-fold — recommended primary concept A
-**Eyebrow:** A DIFFERENT WAY TO SELL, WITH A BROKERAGE TEAM BESIDE YOU.
+**Eyebrow:** A DIFFERENT WAY TO SELL. PERSONAL CARE BY DESIGN.
 
 **H1:** Your home deserves more than one way to sell.
 
-**Subhead:** When a conventional listing isn't the right fit—or you simply want to explore alternatives—Rivet Auctions can help you consider a structured, auction-style offer process as part of a professional real estate selling plan. You still get guidance from the Rivet team, from the first conversation through the next steps.
+**Subhead:** When a conventional listing isn't the right fit—or you simply want to explore alternatives—Rivet Auctions can help you consider a structured, auction-style offer process. Where a listing brokerage is engaged for your property, the auction method can be paired with professional representation and appropriate MLS exposure. We'll explain who is responsible before you decide.
 
 **Primary CTA:** Explore whether an auction fits my home
 **Secondary CTA:** See how the process works
 
-**Trust strip:** Professional brokerage guidance · MLS-coordinated marketing when applicable · Your property's terms explained before you choose
+**Trust strip:** Founder-owned auction business · Listing-broker collaboration by agreement · Your property's rules explained first
 
 **Short honesty line:** An auction is not the best approach for every property. We’ll help you assess the tradeoffs before you decide.
 
 ### Contrast concept B — stalled listings (for research, not automatically the headline)
 **Eyebrow:** YOUR LISTING HAS A HISTORY. YOUR NEXT PLAN CAN BE DIFFERENT.
 **H1:** Still on the market? Consider a different way to invite offers.
-**Subhead:** If showings, waiting and uncertain feedback haven't produced the result you hoped for, ask whether an auction-style competitive offer process could fit your home. You'll still have full-service brokerage guidance and an explanation of the risks, costs and actual rules.
+**Subhead:** If showings, waiting and uncertain feedback haven't produced the outcome you hoped for, explore whether a structured auction-style offer process could fit your home. Professional listing representation can be arranged through a separately engaged brokerage, with costs and actual rules explained first.
 **CTA:** Talk through a different selling plan
 *Test both against proactive sellers; do not assume every seller is frustrated or distressed.*
 
 ## Hero visual and accessibility
 A believable, attractive but not luxury-coded **daylight Central Texas single-family home** photographed in normal conditions; a normal neighborhood, lived-in landscaping, warm human scale. No fake auction podium, crying seller, foreclosure letter, giant mansion, or twilight shot. Use actual licensed image. Alt: `A welcoming Central Texas home in daylight`. Keep the image subordinate to message and fast on mobile.
 
-## Why Rivet — a brokerage experience, not just an auction event
+## Rivet Auctions — an auction process with brokerage care when separately arranged
 **Section heading:** A new selling method shouldn't mean less personal attention.
 **Copy:** The auction format changes how interested buyers may compete; it shouldn't take away the guidance that makes a home sale manageable. Our goal is to help you understand your choices, evaluate your property's market, coordinate the selling process and review offers with professional support.
 
@@ -37,7 +39,7 @@ A believable, attractive but not luxury-coded **daylight Central Texas single-fa
 1. **Start with your situation.** Condition, timing, financial goals and property-specific circumstances—not a one-size-fits-all pitch.
 2. **Understand the options.** Compare an ordinary listing with an auction-style process and any other appropriate route.
 3. **Agree on a clear plan.** Know the marketing approach, participation rules, timeframes, reserve/confirmation terms when relevant, and full costs before committing.
-4. **Stay supported.** Brokerage-led guidance through buyer questions, written offers and next steps in the transaction.
+4. **Know your team.** Understand the responsibilities of the auction operation and any separately contracted listing brokerage before the process begins.
 
 ## Three ways people arrive (not three different hidden products)
 **Considering selling?** Start with a comparison of appropriate strategies.
@@ -50,9 +52,9 @@ A believable, attractive but not luxury-coded **daylight Central Texas single-fa
 
 **01. Assess fit.** We discuss your home, market evidence, buyer demand, desired timeline and the advantages/risks of this option versus a conventional listing.
 **02. Agree on the rules.** Before marketing, we explain listing/auction documents, reserve or confirmation conditions if applicable, fees, marketing schedule, offer submission instructions, agency roles and what happens if the terms aren't met.
-**03. Market the property.** Where applicable, coordinate listing exposure through Rivet Real Estate and the MLS under the appropriate rules. Additional marketing is planned based on the property's actual buyer audience.
+**03. Market the property.** Where a licensed listing brokerage is engaged by agreement, coordinate its authorized MLS exposure and other appropriate marketing with the auction team under the actual listing and auction rules.
 **04. Invite and review offers.** Buyers and their agents can follow written participation instructions. Information about a leading offer is shared only when authorized, verified, accurately dated and permitted by the property-specific rules. A higher number isn't necessarily the better offer.
-**05. Make an informed next move.** Evaluate the actual offer terms, obligations, deadlines and closing process with the brokerage team. The written auction/listing contract governs your options; no blanket 'seller can always refuse' statement.
+**05. Make an informed next move.** Evaluate the actual offer terms, obligations, deadlines and closing process with the auction team and any separately engaged listing brokerage. The written contracts govern your options; no blanket 'seller can always refuse' statement.
 
 ## Explainer: 'Auction does not automatically mean a bargain sale'
 **Headline:** An auction doesn't have to mean giving your home away.
@@ -73,7 +75,7 @@ A believable, attractive but not luxury-coded **daylight Central Texas single-fa
 ## Frequently asked questions — approved-tone draft, subject to transaction review
 
 **Is this a regular real estate listing or an auction?**
-It's intended to bring an auction-style competitive process into a brokerage-led selling plan, with MLS coordination where appropriate. The actual approach is agreed property by property. We'll explain which parts of the transaction are ordinary listing services and which parts follow written auction terms.
+Rivet Auctions is Roger's auction business. With a separately engaged listing broker, its auction method may be coordinated with actual brokerage representation and MLS exposure where appropriate. The property-specific agreements identify each participant's role and compensation.
 
 **Is an auction only for distressed properties?**
 No. It may be worth considering for different seller circumstances, but suitability depends on local buyer demand, property condition, timing and the agreed terms. We don't recommend it automatically.
@@ -82,7 +84,7 @@ No. It may be worth considering for different seller circumstances, but suitabil
 We can't know that in advance. Auctions can produce different outcomes based on buyer interest, marketing, terms and market conditions. We'll compare risks and alternatives; no guaranteed speed or sale price.
 
 **Will I have a real estate agent helping me?**
-The intended experience includes brokerage guidance from a licensed team. We'll clearly identify your actual brokerage relationship, services and responsibilities in the written documents. The auction format should not leave you guessing who is helping.
+When a licensed listing brokerage is separately engaged, its agreement identifies the agent, broker and services provided. Inquiring with Rivet Auctions alone does not create a brokerage relationship.
 
 **Is my home advertised through the MLS?**
 Our intended process coordinates with an MLS listing when appropriate. A property’s actual listing status and any auction instructions will be stated accurately before it is offered. We won't claim MLS exposure for a property that isn't listed.
@@ -132,5 +134,5 @@ We'll explain the difference between broad-market listing, auction-style marketi
 ## Implementation and QA for Web
 - This is **not** the current deployed codebase. Browser readback of `https://rivetauctions.com/` currently shows *PRIVATE REVIEW* and *email replies not connected*, and its main messaging says *homes that need work*. Identify the actual live platform and preserve the current design as a separate task.
 - Mobile first; one clear seller CTA; keep buyer/agent separate; FAQs accordion; accessible focus states; no decorative form success without real saved lead.
-- Broker/logo attribution and pricing remain gated; do not lift the 'PRIVATE REVIEW' label or expose buyer inquiry before real receipts, staff permissions, offer-flow and SLA are tested.
+- Rivet Auctions' own business/auctioneer disclosures, property-specific engaged brokerage attribution, and pricing remain gated; do not lift PRIVATE REVIEW or expose buyer inquiry before verified receipts, staffing, offer handling and response.
 - Commercial pilot + claims: [#12](https://github.com/roger812/rivet-auctions/issues/12); marketing readiness [#4](https://github.com/roger812/rivet-auctions/issues/4); engineering [#1](https://github.com/roger812/rivet-auctions/issues/1); pricing [#10](https://github.com/roger812/rivet-auctions/issues/10); deferred legal [#11](https://github.com/roger812/rivet-auctions/issues/11).
