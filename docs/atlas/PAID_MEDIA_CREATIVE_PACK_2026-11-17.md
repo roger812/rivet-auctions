@@ -1,4 +1,6 @@
 # Atlas Paid Media & Creative Pack — Rivet Seller Options / IWCO
+
+> **Founder clarification, Nov 17:** Rivet Auctions is Roger's own company. No outside brokerage is automatically affiliated; listing-broker participation requires an actual agreement for the property. Marketing assets must not imply otherwise.
 **Prepared 2026-11-17 · DRAFT assets / not uploaded or activated · Approval and landing proof required**
 **Objective:** attract **qualified, incremental seller consultations and signed listings**, not merely traffic or auction-curiosity. Preserve the right business's identity and tracking. No ads for individual properties are authorized in this pack.
 
@@ -14,7 +16,7 @@
 **No implicit spend approval:** RA/Rivet Real Estate campaigns are proposals, not activated accounts. Do not repurpose IWCO's $50 Google budget or its paused ChatGPT pilot for Rivet, and do not change current ad destination without independent measurement/source-consent review.
 
 ## 1. Rivet Auctions — Google Search responsive-search-ad draft
-**Ad group concept:** Seller auction option / MLS brokerage. **Landing:** seller-specific page (not currently published). All copy is a **hypothesis**, subject to approved live process and licensed broker attribution.
+**Ad group concept:** Independent Rivet Auctions service, with potential separately contracted brokerage/MLS collaboration. **Landing:** seller-specific page (not currently published). All copy is a **hypothesis**, subject to an approved live auction process, accurate Rivet Auctions attribution and any actually engaged listing-broker attribution.
 
 ### 15 headlines (max 30 chars each; measured)
 1. More Than One Way to Sell
@@ -106,7 +108,7 @@ Use only if current live ad/keyword/final URL is verified and edits separately a
 `There isn't one perfect way to sell every home. With Rivet, you can explore a conventional listing or a structured auction-style approach when it suits the property and buyer market. We explain the process, fees and written terms before you choose. The selling method can change; your need for professional guidance doesn't. Explore your options with the Rivet team.`
 **Text overlay:** `Your home deserves more than one way to sell.`
 **CTA:** `Explore my selling options`
-**Needs:** actual video footage rights, approved brokerage naming, accurate claims, verified landing and intake.
+**Needs:** authorized footage, accurate Rivet Auctions ownership/auctioneer attribution, any actually engaged broker identification, valid claims and verified landing/intake.
 
 **Rivet seller-education post:** `What does "reserve" actually mean? The answer depends on the signed auction terms. A reserve structure is different from an absolute auction. We'll help you understand the obligations before choosing a sales format.`
 **Buyer-agent educational post:** `Auction-style real estate should not mean unclear instructions. Once a property is offered, participating agents need written directions for forms, deadlines, fees, offer communication and who responds. Don't rely on a general homepage for property-specific offer rules.`
@@ -119,7 +121,7 @@ Use only if current live ad/keyword/final URL is verified and edits separately a
 - Counterfactual: ordinary listing message vs auction-option message to comparable eligible homeowner groups, then compare qualified consultations, genuine signed Rivet agreements, seller fit, cost and owner time. Advertise services, not specific individual housing properties in ChatGPT Ads.
 
 ## 7. Ad readiness preflight (nonnegotiable)
-- [ ] Owner/broker and TREC ad disclosures correct (rivetre.com currently says SIDE, INC.; actual sponsor/license entity must be confirmed).
+- [ ] Rivet Auctions' own auctioneer/business advertising disclosures verified; name a licensed listing brokerage only when the appropriate property-specific agreement exists. Apply applicable auction and real estate advertising rules before publishing.
 - [ ] Marketing claims supported in source page, contracts and actual system.
 - [ ] All public final URLs load in real browser and destination matches ad intent.
 - [ ] Form saves the right record, tags brand/source, rejects failures without fake success.
