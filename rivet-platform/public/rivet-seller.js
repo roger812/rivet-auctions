@@ -12,6 +12,55 @@
     status.dataset.status = kind;
     status.setAttribute('role', kind === 'error' ? 'alert' : 'status');
   };
+  let completed = false;
+  // A real saved receipt is the sole condition for any success confirmation.
+  const confirmSaved = reference => {
+    const notice = document.createElement('section');
+    notice.className = 'ra-success-message';
+    notice.tabIndex = -1;
+    notice.setAttribute('role', 'status');
+    notice.setAttribute('aria-live', 'polite');
+    notice.innerHTML = '<span class="ra-success-mark" aria-hidden="true">✓</span>' +
+      '<h3>Success! Your form has been submitted.</h3>' +
+      '<p>Your consultation request was received by Rivet Auctions. Please keep your receipt number for reference.</p>' +
+      '<p class="ra-success-receipt">Receipt: <strong></strong></p>' +
+      '<p>Thank you for reaching out. Our team can review your request.</p>';
+    notice.querySelector('strong').textContent = reference;
+    const intro = form.previousElementSibling;
+    if (intro && intro.tagName === 'P') intro.hidden = true;
+    const introHeading = intro?.previousElementSibling;
+    if (introHeading && /^H[1-6]$/.test(introHeading.tagName)) introHeading.hidden = true;
+    form.hidden = true;
+    form.insertAdjacentElement('afterend', notice);
+
+    // Keep the in-place confirmation visible even after the modal is dismissed.
+    const dialog = document.createElement('dialog');
+    dialog.className = 'ra-success-dialog';
+    dialog.setAttribute('aria-label', 'Your form was submitted successfully');
+    const panel = notice.cloneNode(true);
+    panel.removeAttribute('role');
+    panel.removeAttribute('aria-live');
+    panel.removeAttribute('tabindex');
+    const done = document.createElement('button');
+    done.type = 'button';
+    done.className = 'button primary ra-success-done';
+    done.textContent = 'Done';
+    dialog.append(panel, done);
+    document.body.appendChild(dialog);
+    dialog.addEventListener('close', () => {
+      dialog.remove();
+      notice.focus({preventScroll: true});
+      notice.scrollIntoView({block: 'center', behavior: 'smooth'});
+    }, {once: true});
+    done.addEventListener('click', () => dialog.close());
+    if (typeof dialog.showModal === 'function') {
+      try { dialog.showModal(); done.focus(); }
+      catch { dialog.remove(); notice.focus(); }
+    } else {
+      dialog.remove();
+      notice.focus();
+    }
+  };
   const solve = async nonce => {
     for (let trial = 0; trial < 200000; trial++) {
       const bytes = new TextEncoder().encode(nonce + ':' + trial);
@@ -23,7 +72,7 @@
   form.addEventListener('input', () => { requestKey = ''; });
   form.addEventListener('submit', async event => {
     event.preventDefault();
-    if (!form.reportValidity()) return;
+    if (completed || !form.reportValidity()) return;
     if (!window.crypto?.randomUUID || !window.crypto?.subtle) {
       say('error', 'This browser cannot securely submit the inquiry. Please use the email or phone option below.');
       return;
@@ -85,12 +134,13 @@
       }
       say('success', 'Your inquiry has been saved. Reference: ' + result.reference +
         '. Please keep this number. A team member can review your request.');
-      form.reset();
+      completed = true;
       requestKey = '';
+      confirmSaved(result.reference);
     } catch {
       say('error', 'We could not confirm that your inquiry was saved. Please email or call the Rivet Auctions team below, or try again later.');
     } finally {
-      button.disabled = false;
+      button.disabled = completed;
     }
   });
 })();
