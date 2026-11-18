@@ -10,7 +10,10 @@ test('static build generates safe no-data pages and does not claim a form receip
  const home=readFileSync(join(root,'dist/index.html'),'utf8');
  assert.match(home,/Your home deserves/);
  assert.match(home,/mailto:info@rivetauctions\.com/);
- assert.match(home,/does not submit or save information/);
+ assert.match(home,/id="rivet-demo-inquiry"/);
+ assert.match(home,/DEMO ONLY/);
+ assert.match(home,/No inquiry has been sent or saved/);
+ assert.match(home,/mailto:info@rivetauctions\\.com/);
  assert.doesNotMatch(home,/<form[^>]*id="rivet-seller-inquiry"/);
  assert.doesNotMatch(home,/<!-- INQUIRY_WIDGET -->/);
  const buyer=readFileSync(join(root,'dist/buyers/index.html'),'utf8');
