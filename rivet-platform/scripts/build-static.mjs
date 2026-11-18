@@ -31,10 +31,32 @@ const fallback=[
 ].join('');
 const sellerSrc=await readFile(join(src,'seller-site.html'),'utf8');
 if(!sellerSrc.includes('<!-- INQUIRY_WIDGET -->'))throw Error('missing_form_placeholder');
-const seller=sellerSrc.replace('<!-- INQUIRY_WIDGET -->',fallback);
-if(seller.includes('id="rivet-seller-inquiry"'))throw Error('unconnected_form_prohibited');
+const realForm=[
+ '<h3>Tell us about your home.</h3>',
+ '<p>Request a consultation. This does not register a bid or create an agreement to sell.</p>',
+ '<form id="rivet-seller-inquiry" autocomplete="on">',
+ '<label for="live-name">Your name</label><input id="live-name" name="name" minlength="2" maxlength="120" autocomplete="name" required>',
+ '<label for="live-email">Email</label><input id="live-email" name="email" type="email" maxlength="254" autocomplete="email" required>',
+ '<label for="live-phone">Phone (optional)</label><input id="live-phone" name="phone" type="tel" maxlength="32" autocomplete="tel">',
+ '<label for="live-address">Property address</label><input id="live-address" name="propertyAddress" maxlength="200" autocomplete="street-address" required>',
+ '<label for="live-reply">How should we reply?</label><select id="live-reply" name="preferredReply"><option value="email">Email</option><option value="call">Phone call</option><option value="text">Text message</option></select>',
+ '<label for="live-note">Your goals (optional)</label><textarea id="live-note" name="note" maxlength="1200" rows="3"></textarea>',
+ '<div aria-hidden="true" class="bot-field"><label for="live-website">Leave this field blank</label><input id="live-website" type="text" name="website" autocomplete="off" tabindex="-1"></div>',
+ '<div class="consent-line"><input id="live-consent" type="checkbox" name="consentToReply" value="yes" required><label for="live-consent">I authorize Rivet Auctions to contact me about this inquiry. This is not permission for ongoing marketing messages.</label></div>',
+ '<button type="submit" class="button primary">Send consultation request</button>',
+ '<p id="inquiry-status" class="form-status" role="status" aria-live="polite"></p>',
+ '</form>',
+ '<p class="fine">If the secure form is temporarily unavailable, contact <a href="mailto:'+contact+'?subject=Rivet%20Auctions%20Consultation">'+contact+'</a> or call <a href="tel:+15127969395">(512) 796-9395</a>.</p>',
+].join('');
+const realSeller=sellerSrc.replace('<!-- INQUIRY_WIDGET -->',realForm);
+if(!realSeller.includes('id="rivet-seller-inquiry"'))throw Error('missing_production_form');
+await writeFile(join(dst,'index.html'),realSeller);
+await cp(join(src,'rivet-seller.js'),join(dst,'assets','rivet-seller.js'));
+const demoSeller=sellerSrc.replace('<!-- INQUIRY_WIDGET -->',fallback);
+if(demoSeller.includes('id="rivet-seller-inquiry"'))throw Error('demo_must_not_collect');
 const demoScript='<script>document.addEventListener("DOMContentLoaded",function(){const form=document.getElementById("rivet-demo-inquiry");if(!form)return;form.addEventListener("submit",function(e){e.preventDefault();if(!form.reportValidity())return;document.getElementById("demo-inquiry-status").textContent="Demo complete. This is an illustrative confirmation only. No inquiry has been sent or saved.";form.reset();});});</script>';
-await writeFile(join(dst,'index.html'),seller.replace('</body>',demoScript+'</body>'));
+await mkdir(join(dst,'demo'),{recursive:true});
+await writeFile(join(dst,'demo','index.html'),demoSeller.replace('</body>',demoScript+'</body>'));
 
 const buyer=await readFile(join(src,'buyer-site.html'),'utf8');
 await writeFile(join(dst,'buyers','index.html'),buyer);
@@ -53,10 +75,10 @@ const common=(title,body)=>[
  body,'</main><footer><div class="wrap footer-bottom">',notice,'</div></footer></body></html>'
 ].join('');
 const priv=common('Privacy & Contact',[
- '<p>This development preview does not accept form submissions or intentionally install advertising trackers. You can contact Rivet Auctions through your own email or telephone application.</p>',
- '<p>If you write or call, your provider sends your message and details to our contact address or number. The team may use those details to respond to the specific inquiry you initiated. Do not email sensitive financial records or payment-card numbers in an initial request.</p>',
+ '<p>Rivet Auctions accepts consultation inquiries through a secure server endpoint. If you submit the form, the information you provide is used to review and respond to the inquiry. The site does not request payment or auction registration.</p>',
+ '<p>Submitted information can include your name, contact details, property address, communication preference and your own description of selling goals. The information is stored in a private Rivet Auctions database and may be reviewed by authorized personnel. We do not promise immediate reply or automatic notifications. Do not send sensitive financial, payment-card or identification details.</p>',
  '<p>Rivet Auctions and a separately engaged listing brokerage are distinct relationships. A message to Rivet Auctions does not automatically transfer your personal information to Rivet Real Estate or enroll you in advertising.</p>',
- '<p>Privacy questions: <a href="mailto:',contact,'?subject=Privacy%20Question">',contact,'</a>. This notice is for the no-data preview and requires further review before interactive collection is activated.</p>'
+ '<p>Privacy questions: <a href="mailto:',contact,'?subject=Privacy%20Question">',contact,'</a>. The separate <a href="/demo/">demo walkthrough</a> does not send or store anything.</p>'
 ].join(''));
 const terms=common('Website Use',[
  '<p>',notice,'</p>',
@@ -68,5 +90,5 @@ await mkdir(join(dst,'privacy'),{recursive:true});
 await mkdir(join(dst,'terms'),{recursive:true});
 await writeFile(join(dst,'privacy','index.html'),priv);
 await writeFile(join(dst,'terms','index.html'),terms);
-await writeFile(join(dst,'RELEASE_STATUS.txt'),'PREVIEW ONLY: no customer intake, staff routes, tracking, bids, payments, or approved contract terms.\n');
-console.log('Rendered CDN preview: seller, buyers, privacy and terms. No form handlers.');
+await writeFile(join(dst,'RELEASE_STATUS.txt'),'CONSULTATION FORM: requests only, with server receipt when enabled. DEMO: no data submitted. No bids, payments, or contracts.\n');
+console.log('Rendered Rivet seller consultation form and separate no-data demo. No bids, payment, or contract signing.');
