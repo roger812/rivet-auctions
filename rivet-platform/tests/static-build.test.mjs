@@ -1,0 +1,24 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {execFileSync} from 'node:child_process';
+import {readFileSync,existsSync} from 'node:fs';
+import {fileURLToPath} from 'node:url';
+import {join,dirname} from 'node:path';
+const root=join(dirname(fileURLToPath(import.meta.url)),'..');
+test('static build generates safe no-data pages and does not claim a form receipt',()=>{
+ execFileSync(process.execPath,['scripts/build-static.mjs'],{cwd:root,timeout:12000,stdio:'pipe'});
+ const home=readFileSync(join(root,'dist/index.html'),'utf8');
+ assert.match(home,/Your home deserves/);
+ assert.match(home,/mailto:info@rivetauctions\.com/);
+ assert.match(home,/does not submit or save information/);
+ assert.doesNotMatch(home,/<form[^>]*id="rivet-seller-inquiry"/);
+ assert.doesNotMatch(home,/<!-- INQUIRY_WIDGET -->/);
+ const buyer=readFileSync(join(root,'dist/buyers/index.html'),'utf8');
+ assert.match(buyer,/FOR BUYERS/);
+ assert.doesNotMatch(buyer,/No\. 1 guaranteed auction price/);
+ assert.ok(existsSync(join(root,'dist/privacy/index.html')));
+ assert.ok(existsSync(join(root,'dist/terms/index.html')));
+ assert.ok(existsSync(join(root,'dist/assets/rivet-seller.css')));
+ assert.ok(existsSync(join(root,'dist/favicon.svg')));
+ assert.match(readFileSync(join(root,'dist/robots.txt'),'utf8'),/Disallow: \//);
+});
