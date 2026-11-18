@@ -29,7 +29,7 @@ const allowed=(env)=>{
     throw Error('trusted_database_ca_invalid');
  return {url:raw,hostname:url.hostname,ca,keyHex:env.IWCO_RIVET_EVENT_KEY_HEX};
 };
-export async function main({env=process.env,Pool=null,log=line=>console.log(line),errorLog=line=>console.error(line)}={}){
+export async function main({env=process.env,Pool=null,fetcher=fetch,log=line=>console.log(line),errorLog=line=>console.error(line)}={}){
  let config,pool;
  try{config=allowed(env);}
  catch(error){errorLog('RIVET_ATLAS_RELAY '+JSON.stringify({state:'disabled',code:error.message}));return {state:'disabled'};}
@@ -46,7 +46,7 @@ export async function main({env=process.env,Pool=null,log=line=>console.log(line
    max:1,connectionTimeoutMillis:8000,idleTimeoutMillis:1000,
    statement_timeout:8000,application_name:'rivet_metadata_only_relay'});
   const store=createRivetPgOutboxStore({pool,workerId:randomUUID()});
-  const transport=createIwcoMetadataTransport({secretHex:config.keyHex});
+  const transport=createIwcoMetadataTransport({secretHex:config.keyHex,fetcher});
   const worker=createRivetOutboxRelay({enabled:true,store,transport});
   const result=await worker.tick();
   log('RIVET_ATLAS_RELAY '+JSON.stringify({state:result.state,
