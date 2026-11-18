@@ -44,6 +44,7 @@ const realForm=[
  '<label for="live-note">Your goals (optional)</label><textarea id="live-note" name="note" maxlength="1200" rows="3"></textarea>',
  '<div aria-hidden="true" class="bot-field"><label for="live-website">Leave this field blank</label><input id="live-website" type="text" name="website" autocomplete="off" tabindex="-1"></div>',
  '<div class="consent-line"><input id="live-consent" type="checkbox" name="consentToReply" value="yes" required><label for="live-consent">I authorize Rivet Auctions to contact me about this inquiry. This is not permission for ongoing marketing messages.</label></div>',
+ '<p class="fine"><a href="/privacy/">How Rivet Auctions uses your information</a></p>',
  '<button type="submit" class="button primary">Send consultation request</button>',
  '<p id="inquiry-status" class="form-status" role="status" aria-live="polite"></p>',
  '</form>',
