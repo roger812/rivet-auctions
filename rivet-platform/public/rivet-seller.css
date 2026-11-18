@@ -12,3 +12,18 @@ footer{background:#142c27;color:#e9eee8;padding:55px 0 25px}.footer-grid{display
 
 /* Hidden honeypot: tab-inaccessible and deliberately not visible to human sellers. */
 .bot-field{position:absolute!important;left:-10000px!important;top:auto!important;width:1px!important;height:1px!important;overflow:hidden!important}
+
+
+/* Receipt-verified submission success: an accessible dialog plus a durable in-page receipt. */
+.ra-success-message{border:1px solid #bfd4c5;border-radius:22px;padding:31px 26px;background:linear-gradient(160deg,#f7fbf5,#fffdf8);color:var(--deep);text-align:center;box-shadow:0 12px 40px #1b423519}
+.ra-success-message:focus{outline:none}
+.ra-success-mark{display:inline-grid;place-items:center;width:65px;height:65px;border-radius:50%;background:#dcefe0;color:#1d6945;font-size:34px;font-weight:700;margin-bottom:19px}
+.form-shell .ra-success-message h3,.ra-success-message h3{font:400 clamp(27px,4vw,36px)/1.17 var(--font-title);color:var(--deep);margin:0 0 18px}
+.form-shell .ra-success-message p,.ra-success-message p{font-size:15px;line-height:1.65;color:var(--mid);margin:0 0 12px}
+.ra-success-message .ra-success-receipt{display:block;background:#e6eee8;padding:12px;border-radius:10px;margin:19px 0;color:var(--deep);overflow-wrap:anywhere;font-size:13px}
+.ra-success-dialog{border:0;padding:8px;width:min(100% - 24px,530px);max-height:calc(100dvh - 24px);background:transparent;overflow-y:auto;color:var(--ink)}
+.ra-success-dialog::backdrop{background:#12271fbb;backdrop-filter:blur(4px)}
+.ra-success-dialog .ra-success-message{box-shadow:0 26px 65px #112b2366}
+.ra-success-dialog .ra-success-done{width:100%;margin-top:14px;background:var(--deep);color:white}
+@media(max-width:760px){.ra-success-message{padding:25px 16px}.ra-success-dialog{padding:4px}}
+@media(prefers-reduced-motion:reduce){.ra-success-dialog::backdrop{backdrop-filter:none}}
