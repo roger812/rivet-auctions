@@ -65,7 +65,7 @@ const intake=configured?createRivetPublicIntake({
       !Number.isSafeInteger(value.issuedAt)||typeof value.sig!=='string')return false;
    const age=Date.now()-value.issuedAt;
    if(age<2500||age>300000)return false;
-   const correct=await mac(msg(value.nonce,value.issuedAt,req.headers.get('Origin')||''));
+   const correct=await mac(msg(value.nonce,value.issuedAt,req.headers.get('X-RA-Origin')||''));
    if(!same(correct,value.sig))return false;
    if(!(await powOk(value.nonce,value.work)))return false;
    const used=await pool.query('insert into rivet.intake_used_challenges(nonce) values($1) on conflict do nothing returning nonce',[value.nonce]);
@@ -83,6 +83,14 @@ const intake=configured?createRivetPublicIntake({
  }
 }):null;
 Deno.serve(async request=>{
+ const route=new URL(request.url).pathname;
+ if(route.endsWith('/health')&&request.method==='GET'){
+  if(!pool)return response(503,{status:'unconfigured'});
+  try{
+   await pool.query('select 1');
+   return response(200,{status:'database_reachable',intakeEnabled:await isEnabled()});
+  }catch{return response(503,{status:'database_unreachable'});}
+ }
  const actualOrigin=request.headers.get('Origin')||'';
  const allowed=originSet.has(actualOrigin)?actualOrigin:'';
  if(!allowed)return response(403,{error:'origin_not_allowed'});
@@ -90,10 +98,6 @@ Deno.serve(async request=>{
   'Access-Control-Allow-Origin':allowed,'Vary':'Origin','Access-Control-Allow-Methods':'GET, POST, OPTIONS',
   'Access-Control-Allow-Headers':'Content-Type, Idempotency-Key','Access-Control-Max-Age':'300'
  }});
- const route=new URL(request.url).pathname;
- if(route.endsWith('/health')&&request.method==='GET'){
-  return response(configured?200:503,{status:configured?'configured':'unconfigured',intakeEnabled:await isEnabled()},allowed);
- }
  if(!configured || !await isEnabled())return response(503,{error:'intake_not_enabled'},allowed);
  if(route.endsWith('/challenge')&&request.method==='GET'){
   const nonce=crypto.randomUUID(),issuedAt=Date.now();
@@ -101,10 +105,20 @@ Deno.serve(async request=>{
  }
  if(!(route==='/rivet-public-intake'||route.endsWith('/rivet-public-intake'))||request.method!=='POST')
   return response(405,{error:'post_required'},allowed);
- const raw=await request.text();
- if(encoder.encode(raw).length>8192)return response(413,{error:'request_too_large'},allowed);
+ if(Number(request.headers.get('Content-Length')||0)>8192)return response(413,{error:'request_too_large'},allowed);
+ if(!request.body)return response(400,{error:'body_required'},allowed);
+ const reader=request.body.getReader();let size=0;const chunks=[];
+ try{
+  while(true){const {done,value}=await reader.read();if(done)break;size+=value.byteLength;
+   if(size>8192){await reader.cancel().catch(()=>{});return response(413,{error:'request_too_large'},allowed);}
+   chunks.push(value);
+  }
+ }catch{return response(400,{error:'body_read_failed'},allowed);}
+ const bytes=new Uint8Array(size);let pos=0;for(const chunk of chunks){bytes.set(chunk,pos);pos+=chunk.length;}
+ const raw=new TextDecoder().decode(bytes);
  const h=new Headers(request.headers);h.delete('host');h.delete('content-length');
  h.set('Origin','https://rivet-auctions-public-candidate-20261117.onrender.com');
+ h.set('X-RA-Origin',allowed);
  const proxy=new Request('https://rivet-auctions-public-candidate-20261117.onrender.com/api/inquiries',{method:'POST',headers:h,body:raw});
  try{
   const result=await intake(proxy);
