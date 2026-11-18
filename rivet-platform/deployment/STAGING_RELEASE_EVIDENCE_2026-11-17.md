@@ -22,6 +22,13 @@
 - Health advisors returned **no lints**.
 - Existing real Supabase Deno-compatible rollback seller-intake proof and real HTTPS signed nonpersistent IWCO receiver are documented under [engineering #1](https://github.com/roger812/rivet-auctions/issues/1). **Node 22 from Render to actual Rivet Supabase is not yet verified**. No external customer data imported by this readback.
 
+## Final staging redeploy & mobile quality audit
+- Latest Render deployment **`dep-dbueoiu7bikc739o600g`**, commit `45cdfea3e318f23d0791603a6488bfa514c5960e`, reached **LIVE**. Static routes `/`, `/buyers`, `/favicon.svg`, and `/readyz` all externally returned HTTP **200**. No customer intake or private staff routes are mounted.
+- Latest matching [Node 22 Actions run](https://github.com/roger812/rivet-auctions/actions/runs/44205175807) passed after the accessibility changes and first-party icon were committed.
+- **Fresh Google PageSpeed mobile lab audit, Nov 18 00:08 UTC:** seller `performance 100`, `accessibility 100`, `best-practices 100`, `SEO 60`; buyer `performance 100`, `accessibility 100`, `best-practices 92`, `SEO 60`. Both `LCP 0.8s`, `CLS 0`, `TBT 0ms` lab values. Score changes are not proof of real-user Core Web Vitals.
+- **SEO 60 is intentional in staging** because `noindex/nofollow` is still set. Do not remove it until the actual production source and legal/marketing approval are established.
+- **Buyer best-practices 92 is not a clean bill of health**: PageSpeed flagged Chrome console/inspector errors without actionable file/stack detail in the provided result. Reproduce in a real browser DevTools before public cutover; do not assert fixed.
+
 ## Release gates — only real unfinished work
 | Priority | Gate | Evidence required | Current status |
 | --- | --- | --- | --- |
