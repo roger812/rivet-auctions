@@ -5,18 +5,23 @@
  */
 import {createRivetPublicIntake} from './public-intake.mjs';
 import {createRivetStaffBoundary} from './access-boundary.mjs';
+import {createRivetPublicPages} from './public-pages.mjs';
 
 const simple = (status, error) => new Response(JSON.stringify({error}), {
   status, headers:{'Content-Type':'application/json','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}
 });
 
-export function createRivetApplication({origin, sessions, members, cases, repository, verifyHuman, rateLimiter}={}) {
+export function createRivetApplication({origin, sessions, members, cases, repository, verifyHuman, rateLimiter, publicSiteEnabled=false, turnstileSiteKey=''}={}) {
   const team = createRivetStaffBoundary({origin,sessions,members,cases});
   const intake = createRivetPublicIntake({origin,repository,verifyHuman,rateLimiter});
+  // The live publishing platform is separate. Only an explicit preview opt-in serves public pages.
+  const publicPages = publicSiteEnabled === true ? createRivetPublicPages({turnstileSiteKey}) : null;
   return async request => {
     try {
       const url = new URL(request.url);
       if (url.origin !== origin) return simple(403, 'origin_not_allowed');
+      const publicPage = publicPages?.(request);
+      if (publicPage) return publicPage;
       if (url.pathname === '/healthz' && request.method === 'GET')
         return new Response('ok', {status:200,headers:{'Cache-Control':'no-store','Content-Type':'text/plain'}});
       if (url.pathname === '/team' || url.pathname === '/api/team/requests')

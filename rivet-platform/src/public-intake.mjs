@@ -101,10 +101,13 @@ export function createRivetPublicIntake({origin, repository, verifyHuman, rateLi
       const normalized = normalizeRivetInquiry(body);
       // Implementers must use the real trusted connection identity, not an
       // arbitrary client-supplied X-Forwarded-For header, for rate limits.
-      if (await rateLimiter(request) !== true)
-        return respond(429, {error:'try_again_later'});
+      // Reject invalid human-verification tokens before consuming the shared
+      // acceptance quota. Turnstile tokens are single-use; the rate window is
+      // a supplementary control for requests that passed that check.
       if (await verifyHuman(request, body.turnstileToken) !== true)
         return respond(403, {error:'verification_failed'});
+      if (await rateLimiter(request) !== true)
+        return respond(429, {error:'try_again_later'});
       const receipt = await repository.saveInquiry(normalized, requestKey);
       if (!receipt?.id || !receipt?.caseId)
         return respond(503, {error:'intake_unavailable'});

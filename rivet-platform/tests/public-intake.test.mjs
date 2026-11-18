@@ -95,3 +95,14 @@ test('conflicting idempotency payload returns 409 without database internals',as
   assert.equal(r.status,409);
   assert.deepEqual(await r.json(),{error:'request_changed_use_new_id'});
 });
+
+test('invalid human token cannot exhaust the accepted-inquiry rate quota',async()=>{
+  let counted=0;
+  const handle=createRivetPublicIntake({origin,
+    verifyHuman:async()=>false,
+    rateLimiter:async()=>{counted++;return true;},
+    repository:{saveInquiry:async()=>{throw Error('should_not_write');}}
+  });
+  assert.equal((await handle(makeRequest({...good,turnstileToken:'fake'}))).status,403);
+  assert.equal(counted,0);
+});
