@@ -58,6 +58,10 @@ test('assets are served with appropriate types and origin-scoped security header
   assert.match(buyerHtml,/No active property catalog/);
   assert.doesNotMatch(buyerHtml,/<form/);
   assert.doesNotMatch(buyerHtml,/highest possible price/);
+  const favicon = handler(request('/favicon.svg'));
+  assert.equal(favicon.status,200);
+  assert.match(favicon.headers.get('Content-Type'),/image\/svg\+xml/);
+  assert.match(await favicon.text(),/<svg/);
   assert.equal(handler(request('/api/team/requests')),null);
   assert.equal(handler(new Request(origin+'/',{method:'POST'})).status,405);
 });
