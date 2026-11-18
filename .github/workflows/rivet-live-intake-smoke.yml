@@ -1,0 +1,24 @@
+name: Rivet controlled public-intake smoke
+on:
+  push:
+    branches:
+      - feature/seller-first-web-pages-20261117
+    paths:
+      - "rivet-platform/scripts/live-intake-smoke.mjs"
+      - ".github/workflows/rivet-live-intake-smoke.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Check real public Edge gateway, optional fictitious inquiry when active
+        run: node rivet-platform/scripts/live-intake-smoke.mjs
