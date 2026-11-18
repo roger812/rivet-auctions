@@ -19,6 +19,7 @@ test('public web preview is OFF by default even if secure backend is configured'
   const app=createRivetApplication(mocks);
   assert.equal((await app(request('/'))).status,404);
   assert.equal((await app(request('/assets/rivet-seller.css'))).status,404);
+  assert.equal((await app(request('/buyers'))).status,404);
 });
 
 test('public preview returns seller-first page and does not imply an existing brokerage agreement',async()=>{
@@ -50,6 +51,13 @@ test('assets are served with appropriate types and origin-scoped security header
   assert.match(script.headers.get('Content-Type'),/text\/javascript/);
   assert.match(await script.text(),/result\.status !== 'received'/);
   assert.equal(script.headers.get('Cross-Origin-Resource-Policy'),'same-origin');
+  const buyers = handler(request('/buyers'));
+  assert.equal(buyers.status,200);
+  const buyerHtml = await buyers.text();
+  assert.match(buyerHtml,/FOR BUYERS &amp; BUYER'S AGENTS/);
+  assert.match(buyerHtml,/No active property catalog/);
+  assert.doesNotMatch(buyerHtml,/<form/);
+  assert.doesNotMatch(buyerHtml,/highest possible price/);
   assert.equal(handler(request('/api/team/requests')),null);
   assert.equal(handler(new Request(origin+'/',{method:'POST'})).status,405);
 });
@@ -68,6 +76,7 @@ test('enabled preview can render a consent-only inquiry form behind human verifi
 test('preview does not grant access to private team endpoints or override intake',async()=>{
   const app=createRivetApplication({...mocks,publicSiteEnabled:true});
   assert.equal((await app(request('/'))).status,200);
+  assert.equal((await app(request('/buyers'))).status,200);
   assert.equal((await app(request('/team'))).status,401);
   assert.equal((await app(request('/api/team/requests'))).status,401);
   assert.equal((await app(request('/api/inquiries'))).status,403);
