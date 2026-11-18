@@ -8,6 +8,7 @@ import { readFileSync } from 'node:fs';
 
 const fromPublic = filename => readFileSync(new URL('../public/' + filename, import.meta.url), 'utf8');
 const htmlSource = fromPublic('seller-site.html');
+const buyerHtml = fromPublic('buyer-site.html');
 const cssSource = fromPublic('rivet-seller.css');
 const jsSource = fromPublic('rivet-seller.js');
 
@@ -66,9 +67,10 @@ export function createRivetPublicPages({turnstileSiteKey = ''} = {}) {
   if (html === htmlSource) throw new Error('inquiry_placeholder_missing');
   return request => {
     const path = new URL(request.url).pathname;
-    if (!['/','/assets/rivet-seller.css','/assets/rivet-seller.js'].includes(path)) return null;
+    if (!['/','/buyers','/assets/rivet-seller.css','/assets/rivet-seller.js'].includes(path)) return null;
     if (request.method !== 'GET') return rejectMethod();
     if (path === '/') return htmlResponse(html);
+    if (path === '/buyers') return htmlResponse(buyerHtml);
     if (path.endsWith('.css')) return textResponse(cssSource,'text/css; charset=utf-8');
     return textResponse(jsSource,'text/javascript; charset=utf-8');
   };
