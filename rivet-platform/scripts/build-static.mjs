@@ -94,3 +94,7 @@ await writeFile(join(dst,'privacy','index.html'),priv);
 await writeFile(join(dst,'terms','index.html'),terms);
 await writeFile(join(dst,'RELEASE_STATUS.txt'),'CONSULTATION FORM: requests only, with server receipt when enabled. DEMO: no data submitted. No bids, payments, or contracts.\n');
 console.log('Rendered Rivet seller consultation form and separate no-data demo. No bids, payment, or contract signing.');
+
+await mkdir(join(dst, 'staff', 'confirm'), {recursive: true});
+await cp(join(src, 'staff-confirmation.html'), join(dst, 'staff', 'confirm', 'index.html'));
+await cp(join(src, 'staff-confirmation.js'), join(dst, 'assets', 'staff-confirmation.js'));
