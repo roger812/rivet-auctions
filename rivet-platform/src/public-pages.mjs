@@ -11,6 +11,7 @@ const htmlSource = fromPublic('seller-site.html');
 const buyerHtml = fromPublic('buyer-site.html');
 const cssSource = fromPublic('rivet-seller.css');
 const jsSource = fromPublic('rivet-seller.js');
+const iconSource = fromPublic('favicon.svg');
 
 const csp = [
   "default-src 'none'",
@@ -67,10 +68,11 @@ export function createRivetPublicPages({turnstileSiteKey = ''} = {}) {
   if (html === htmlSource) throw new Error('inquiry_placeholder_missing');
   return request => {
     const path = new URL(request.url).pathname;
-    if (!['/','/buyers','/assets/rivet-seller.css','/assets/rivet-seller.js'].includes(path)) return null;
+    if (!['/','/buyers','/favicon.svg','/assets/rivet-seller.css','/assets/rivet-seller.js'].includes(path)) return null;
     if (request.method !== 'GET') return rejectMethod();
     if (path === '/') return htmlResponse(html);
     if (path === '/buyers') return htmlResponse(buyerHtml);
+    if (path === '/favicon.svg') return textResponse(iconSource,'image/svg+xml; charset=utf-8');
     if (path.endsWith('.css')) return textResponse(cssSource,'text/css; charset=utf-8');
     return textResponse(jsSource,'text/javascript; charset=utf-8');
   };
