@@ -15,18 +15,26 @@ await mkdir(join(dst,'buyers'),{recursive:true});
 
 const fallback=[
   '<div class="form-unavailable">',
-  '<strong>Email us about your property.</strong>',
-  '<p>Tell the team about the home and your goals. This opens your own email app; this page does not submit or save information.</p>',
-  '<p><a href="mailto:'+contact+'?subject=Rivet%20Auctions%20Seller%20Conversation">Email '+contact+'</a></p>',
-  '<p>Prefer to call or text? <a href="tel:+15127969395">(512) 796-9395</a>.</p>',
-  '<p>We do not claim your request was received until the team confirms it.</p>',
+  '<strong>Try the seller inquiry walkthrough</strong>',
+  '<p><strong>DEMO ONLY:</strong> Please use sample information. Nothing entered here is submitted, stored, or sent to Rivet Auctions.</p>',
+  '<form id="rivet-demo-inquiry" autocomplete="off">',
+  '<label for="demo-name">Name</label><input id="demo-name" name="name" required maxlength="120" placeholder="Sample Seller">',
+  '<label for="demo-email">Email</label><input id="demo-email" name="email" type="email" required placeholder="seller@example.com">',
+  '<label for="demo-phone">Phone</label><input id="demo-phone" name="phone" type="tel" placeholder="555-0100">',
+  '<label for="demo-address">Property address</label><input id="demo-address" name="propertyAddress" required placeholder="123 Sample Street">',
+  '<label for="demo-goal">Selling goals</label><textarea id="demo-goal" name="note" rows="3" placeholder="What would you like to accomplish?"></textarea>',
+  '<button class="button primary" type="submit">Preview submission</button>',
+  '</form>',
+  '<p id="demo-inquiry-status" role="status" aria-live="polite"></p>',
+  '<p>To contact the team for real: <a href="mailto:'+contact+'?subject=Rivet%20Auctions%20Seller%20Conversation">Email '+contact+'</a> or <a href="tel:+15127969395">call (512) 796-9395</a>.</p>',
   '</div>'
 ].join('');
 const sellerSrc=await readFile(join(src,'seller-site.html'),'utf8');
 if(!sellerSrc.includes('<!-- INQUIRY_WIDGET -->'))throw Error('missing_form_placeholder');
 const seller=sellerSrc.replace('<!-- INQUIRY_WIDGET -->',fallback);
 if(seller.includes('id="rivet-seller-inquiry"'))throw Error('unconnected_form_prohibited');
-await writeFile(join(dst,'index.html'),seller);
+const demoScript='<script>document.addEventListener("DOMContentLoaded",function(){const form=document.getElementById("rivet-demo-inquiry");if(!form)return;form.addEventListener("submit",function(e){e.preventDefault();if(!form.reportValidity())return;document.getElementById("demo-inquiry-status").textContent="Demo complete. This is an illustrative confirmation only. No inquiry has been sent or saved.";form.reset();});});</script>';
+await writeFile(join(dst,'index.html'),seller.replace('</body>',demoScript+'</body>'));
 
 const buyer=await readFile(join(src,'buyer-site.html'),'utf8');
 await writeFile(join(dst,'buyers','index.html'),buyer);
