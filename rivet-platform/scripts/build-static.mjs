@@ -1,6 +1,7 @@
 /**
- * Build static, no-data Rivet Auctions brochure for Render's CDN.
- * No customer intake, staff desk, auction bidding or secret-dependent APIs.
+ * Build the Rivet consultation website for Render's CDN.
+ * Its real form connects to a separate server-only Supabase intake gateway;
+ * no staff desk, auction bidding or database credentials ship in these assets.
  */
 import {readFile,writeFile,mkdir,cp} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
@@ -52,7 +53,7 @@ const realSeller=sellerSrc.replace('<!-- INQUIRY_WIDGET -->',realForm);
 if(!realSeller.includes('id="rivet-seller-inquiry"'))throw Error('missing_production_form');
 await writeFile(join(dst,'index.html'),realSeller);
 await cp(join(src,'rivet-seller.js'),join(dst,'assets','rivet-seller.js'));
-const demoSeller=sellerSrc.replace('<!-- INQUIRY_WIDGET -->',fallback);
+const demoSeller=sellerSrc.replace('<!-- INQUIRY_WIDGET -->',fallback).replace('SELLER CONSULTATIONS AVAILABLE · NO CURRENT PROPERTY AUCTIONS OR BIDS','DEMO ONLY · NO INFORMATION SENT OR SAVED');
 if(demoSeller.includes('id="rivet-seller-inquiry"'))throw Error('demo_must_not_collect');
 const demoScript='<script>document.addEventListener("DOMContentLoaded",function(){const form=document.getElementById("rivet-demo-inquiry");if(!form)return;form.addEventListener("submit",function(e){e.preventDefault();if(!form.reportValidity())return;document.getElementById("demo-inquiry-status").textContent="Demo complete. This is an illustrative confirmation only. No inquiry has been sent or saved.";form.reset();});});</script>';
 await mkdir(join(dst,'demo'),{recursive:true});
@@ -64,12 +65,12 @@ await cp(join(src,'rivet-seller.css'),join(dst,'assets','rivet-seller.css'));
 await cp(join(src,'favicon.svg'),join(dst,'favicon.svg'));
 await writeFile(join(dst,'robots.txt'),'User-agent: *\nDisallow: /\n');
 
-const notice='This development website is informational. It offers no property, bids, contract signatures, brokerage representation, or payment service.';
+const notice='Consultation inquiries only. This website offers no property, bids, contract signatures, brokerage representation, or payment service.';
 const legalHeader='<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/assets/rivet-seller.css">';
 const common=(title,body)=>[
  '<!doctype html><html lang="en"><head>',legalHeader,
  '<title>',title,' | Rivet Auctions</title></head><body>',
- '<div class="preview-ribbon">RIVET AUCTIONS · DEVELOPMENT PREVIEW</div>',
+ '<div class="preview-ribbon">RIVET AUCTIONS · SELLER CONSULTATIONS AVAILABLE</div>',
  '<header class="masthead"><div class="wrap nav-row"><a class="brand" href="/"><span class="brand-emblem">R</span><span class="brand-name">RIVET<small>AUCTIONS</small></span></a><a class="nav-cta" href="/">Return to homepage</a></div></header>',
  '<main class="wrap section" style="max-width:760px;min-height:60vh"><h1 style="font:400 50px Georgia,serif;line-height:1.1;margin:0 0 34px">',title,'</h1>',
  body,'</main><footer><div class="wrap footer-bottom">',notice,'</div></footer></body></html>'
@@ -84,7 +85,7 @@ const terms=common('Website Use',[
  '<p>',notice,'</p>',
  '<p>General information about auctions, seller reserve, professional representation, MLS participation and cost is educational. Actual property-specific offering documents and separately signed agreements govern real transactions.</p>',
  '<p>Rivet Auctions is the founder-owned auction service. In the proposed service arrangement, a seller first considers its auction agreement and, immediately afterward at the same table, separately considers a Rivet Real Estate listing agreement. No unsigned agreement creates representation or obligates either business.</p>',
- '<p>This website does not guarantee a price, closing date, bidders, or a sale. Do not transmit offers, earnest money, private documents, or payment information through this preview.</p>'
+ '<p>This website does not guarantee a price, closing date, bidders, or a sale. Do not transmit offers, earnest money, private documents, or payment information through this website.</p>'
 ].join(''));
 await mkdir(join(dst,'privacy'),{recursive:true});
 await mkdir(join(dst,'terms'),{recursive:true});
