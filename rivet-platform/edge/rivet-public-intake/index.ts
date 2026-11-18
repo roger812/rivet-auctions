@@ -94,10 +94,31 @@ Deno.serve(async req=>{
   return reply(404,{error:'not_found'},cors);
  // Normalize to the exact, shared application contract and require its
  // actual commit receipt from the database transaction.
+ const reader=req.body?.getReader();
+ if(!reader)return reply(400,{error:'body_required'},cors);
+ const chunks=[];
+ let size=0;
+ try{
+  while(true){
+   const {done,value}=await reader.read();
+   if(done)break;
+   size+=value.byteLength;
+   if(size>8192){
+    await reader.cancel().catch(()=>{});
+    return reply(413,{error:'request_too_large'},cors);
+   }
+   chunks.push(value);
+  }
+ }catch{return reply(400,{error:'invalid_body'},cors);}
+ const bytes=new Uint8Array(size);
+ let offset=0;
+ for(const chunk of chunks){bytes.set(chunk,offset);offset+=chunk.byteLength;}
  const reqHeaders=new Headers(req.headers);
  reqHeaders.set('Origin',origin);
+ // Do not forward the gateway's Host or a potentially incorrect content length.
+ reqHeaders.delete('host');reqHeaders.delete('content-length');
  const proxy=new Request(origin+'/api/inquiries',{
-  method:'POST',headers:reqHeaders,body:req.body,duplex:'half'
+  method:'POST',headers:reqHeaders,body:bytes
  });
  try{
   const result=await intake(proxy);
