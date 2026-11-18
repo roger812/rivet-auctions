@@ -17,6 +17,14 @@ test('static production candidate renders real intake UI with an explicit receip
   assert.match(client,/rivet-public-intake/);
   assert.match(client,/result.status !== 'received'/);
   assert.match(client,/receipt_not_verified/);
+  assert.match(client,/confirmSaved\(result\.reference\)/);
+  assert.match(client,/dialog\.showModal\(\)/);
+  assert.match(client,/completed = true/);
+  assert.match(client,/button\.disabled = completed/);
+  assert.doesNotMatch(client,/form\.reset\(\)/);
+  const css=readFileSync(join(root,'dist/assets/rivet-seller.css'),'utf8');
+  assert.match(css,/\.ra-success-dialog::backdrop/);
+  assert.match(css,/\.ra-success-message/);
   assert.doesNotMatch(home,/<!-- INQUIRY_WIDGET -->/);
   const demo=readFileSync(join(root,'dist/demo/index.html'),'utf8');
   assert.match(demo,/id="rivet-demo-inquiry"/);
